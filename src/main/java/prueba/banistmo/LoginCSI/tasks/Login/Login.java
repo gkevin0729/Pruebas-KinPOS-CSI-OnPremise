@@ -1,13 +1,12 @@
-package prueba.banistmo.tasks;
+package prueba.banistmo.LoginCSI.tasks.Login;
 
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Task;
-import net.serenitybdd.screenplay.actions.Click;
 import net.serenitybdd.screenplay.actions.Enter;
 
 import javax.swing.*;
 
-import static prueba.banistmo.userinterface.PaginaCSIObje.*;
+import static prueba.banistmo.LoginCSI.userinterface.PaginaCSIObje.*;
 
 public class Login implements Task {
         private final String usuario;

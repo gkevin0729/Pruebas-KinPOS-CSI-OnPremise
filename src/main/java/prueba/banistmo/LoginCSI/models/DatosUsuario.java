@@ -1,4 +1,4 @@
-package prueba.banistmo.models;
+package prueba.banistmo.LoginCSI.models;
 
 public class DatosUsuario {
 
