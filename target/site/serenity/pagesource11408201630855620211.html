@@ -1,0 +1,1726 @@
+<html lang='en'><head><link href='prism/prism.css' rel='stylesheet' /></head><body><script src='prism/prism.js'></script><body><div><pre><code class='language-html'>&lt;html lang="en-us" class="k-webkit k-webkit131"&gt;<br/>
+ &lt;head&gt;<br/>
+  &lt;script src="/scripts/Home/kinpos.home.index.js"&gt;&lt;/script&gt;<br/>
+  &lt;meta charset="utf-8"&gt;<br/>
+  &lt;meta name="description" content="Kinpos CSI"&gt;<br/>
+  &lt;meta name="author" content="Kinpos Corporation"&gt;<br/>
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"&gt;<br/>
+  &lt;title&gt;Inicio&lt;/title&gt;&lt;!-- Archivos de estilos --&gt;<br/>
+  &lt;link href="/Templates/Endless/css/endless.min.css" rel="stylesheet"&gt;<br/>
+  &lt;link href="/Templates/Endless/css/endless.css" rel="stylesheet"&gt;<br/>
+  &lt;link href="/Templates/Theme/Banistmo-OCT-2023/css/" rel="stylesheet"&gt;<br/>
+  &lt;link href="/Templates/themes/Banistmo-OCT-2023/css/Default.css" rel="stylesheet"&gt;<br/>
+  &lt;link href="/Templates/kendo/styles/kendo.common-bootstrap.min.css" rel="stylesheet"&gt;<br/>
+  &lt;link href="/Templates/kendo/styles/kendo.flat.min.css" rel="stylesheet"&gt;<br/>
+  &lt;link href="/Templates/kendo/styles/kendo.dataviz.min.css" rel="stylesheet"&gt;<br/>
+  &lt;link href="/Templates/kendo/styles/kendo.dataviz.flat.min.css" rel="stylesheet"&gt;<br/>
+  &lt;link href="/Templates/master/images/BrowerIcon.ico" rel="shortcut icon" type="image/x-icon"&gt;<br/>
+  &lt;link href="/Templates/Kinpos/css/CustomStyle.css" rel="stylesheet"&gt;&lt;!-- Basic Styles --&gt;<br/>
+  &lt;link rel="stylesheet" type="text/css" href="/Templates/css/bootstrap.min.css"&gt;<br/>
+  &lt;link rel="stylesheet" type="text/css" href="/Templates/css/font-awesome.min.css"&gt;<br/>
+  &lt;link rel="stylesheet" type="text/css" href="/Templates/css/smartadmin-production.min.css"&gt;<br/>
+  &lt;link rel="stylesheet" type="text/css" href="/Templates/css/smartadmin-skins.min.css"&gt;<br/>
+  &lt;link type="text/css" href="/Templates/css/footable.core.css" rel="stylesheet"&gt;<br/>
+  &lt;link rel="stylesheet" type="text/css" href="/Templates/css/styles.css"&gt;&lt;!-- Gritter --&gt;<br/>
+  &lt;link href="/Templates/Endless/css/gritter/jquery.gritter.css" media="screen" rel="stylesheet" type="text/css"&gt;<br/>
+  &lt;link href="/Templates/js/plugin/summernote/summernote.css" rel="stylesheet"&gt;<br/>
+  &lt;link href="/Templates/js/plugin/dropzone/dropzone.min.css" rel="stylesheet"&gt;<br/>
+  &lt;link href="/Templates/js/plugin/Dragula/dragula.min.css" rel="stylesheet"&gt;&lt;!-- Estilos de la pagina --&gt;<br/>
+  &lt;style type="text/css"&gt;<br/>
+        .active {<br/>
+            background: transparent !important;<br/>
+        }<br/>
+    &lt;/style&gt;&lt;!-- Javascript necesario en el header --&gt;<br/>
+  &lt;script type="text/javascript"&gt;<br/>
+        const SessionAutoClose = {<br/>
+            Debug: false,<br/>
+            CheckRate: 60,<br/>
+            IsBlocked: false,<br/>
+            Expires: true,<br/>
+            Timeout: 900,<br/>
+            Counter: 0,<br/>
+            IntervalId: 0,<br/>
+            SetFromData: function (data) {<br/>
+                this.Timeout = data.Timeout;<br/>
+                this.Expires = data.Expires;<br/>
+                this.IsBlocked = data.IsBlocked;<br/>
+                if (this.Debug) console.log(this.Timeout);<br/>
+            },<br/>
+            Check: function () {<br/>
+                if (this.Debug) console.log("SessionAutoClose.Check");<br/>
+                $.ajax({<br/>
+                    type: "GET",<br/>
+                    dataType: "json",<br/>
+                    url: "Home/SessionCheck",<br/>
+                    context: this,<br/>
+                    success: function (data) {<br/>
+                        if (this.Debug) console.log(data);<br/>
+                        if (data.Status == "OK") {<br/>
+                            if (this.Debug) console.log("SessionAutoClose.Check: OK");<br/>
+                            this.SetFromData(data);<br/>
+                        }<br/>
+                    },<br/>
+                    error: function (obj) {<br/>
+                        console.log(obj);<br/>
+                        LogOut();<br/>
+                    }<br/>
+                });<br/>
+                if (this.IsBlocked) {<br/>
+                    this.Close();<br/>
+                }<br/>
+                else {<br/>
+                    if (this.Expires) {<br/>
+                        this.Counter += this.CheckRate;<br/>
+                        if (this.Debug) console.log(this.Counter + "/" + this.Timeout);<br/>
+                        if (this.Counter &gt;= this.Timeout) {<br/>
+                            this.Close();<br/>
+                        }<br/>
+                    }<br/>
+                }<br/>
+            },<br/>
+            Start: function (InstanceName) {<br/>
+                if (this.Debug) console.log("SessionAutoClose.Start");<br/>
+                this.Counter = 0;<br/>
+                if (this.IntervalId &gt; 0) clearInterval(this.IntervalId);<br/>
+                this.IntervalId = setInterval(InstanceName + ".Check()", this.CheckRate * 1000);<br/>
+            },<br/>
+            Close: function () {<br/>
+                if (this.Debug) console.log("SessionAutoClose.Close");<br/>
+                if (this.IntervalId &gt; 0) {<br/>
+                    clearInterval(this.IntervalId);<br/>
+                    this.IntervalId = 0;<br/>
+                }<br/>
+                LogOut();<br/>
+            }<br/>
+        };<br/>
+<br/>
+        const AutoClose = Object.create(SessionAutoClose);<br/>
+        AutoClose.Start("AutoClose");<br/>
+<br/>
+        function GoToMyWidgets() {<br/>
+            location.href = '/#/Home/MyWidgets';<br/>
+        }<br/>
+    &lt;/script&gt;<br/>
+  &lt;script src="/Templates/js/tools/tools.js"&gt;&lt;/script&gt;<br/>
+  &lt;style type="text/css"&gt;.jqstooltip { position: absolute;left: 0px;top: 0px;visibility: hidden;background: rgb(0, 0, 0) transparent;background-color: rgba(0,0,0,0.6);filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000);-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#99000000, endColorstr=#99000000)";color: white;font: 10px arial, san serif;text-align: left;white-space: nowrap;padding: 5px;border: 1px solid white;z-index: 10000;}.jqsfield { color: white;font: 10px arial, san serif;text-align: left;}&lt;/style&gt;<br/>
+ &lt;/head&gt;<br/>
+ &lt;body class="minified desktop-detected" onclick="AutoClose.Start('AutoClose')"&gt;&lt;!-- Webpage header --&gt;<br/>
+  &lt;header id="header" class="non-printable"&gt;&lt;!-- Top navigation --&gt;<br/>
+   &lt;div id="top-nav" class="fixed skin"&gt;&lt;a class="top-nav-left brand" href="/#/Home/Home"&gt;<br/>
+     &lt;div class="Logo-top-nav"&gt;&lt;/div&gt;&lt;/a&gt; &lt;button type="button" data-action="minifyMenu" class="navbar-toggle pull-left" id="sidebarToggle" href="javascript:void(0);"&gt; &lt;span class="icon-bar"&gt;&lt;/span&gt; &lt;span class="icon-bar"&gt;&lt;/span&gt; &lt;span class="icon-bar"&gt;&lt;/span&gt; &lt;/button&gt; &lt;button type="button" class="navbar-toggle pull-left hide-menu" id="menuToggle" href="javascript:void(0);" data-action="minifyMenu"&gt; &lt;span class="icon-bar"&gt;&lt;/span&gt; &lt;span class="icon-bar"&gt;&lt;/span&gt; &lt;span class="icon-bar"&gt;&lt;/span&gt; &lt;/button&gt;<br/>
+    &lt;div class="top-nav-right"&gt;<br/>
+     &lt;ul class="nav-notification clearfix"&gt;<br/>
+      &lt;li class="hidden" id="customhelp"&gt;&lt;a href="#/Administration/About"&gt; &lt;i class="fa fa-lg fa-fw fa-info"&gt;&lt;/i&gt;&nbsp;&nbsp;&lt;span id="linkCustomhelp"&gt;Ayuda&lt;/span&gt; &lt;/a&gt;&lt;/li&gt;&lt;!-- Language --&gt;<br/>
+      &lt;li class="dropdown div-language" title="Idioma"&gt;&lt;a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" id="countrySet"&gt; &lt;i class="fa fa-flag fa-lg"&gt;&lt;/i&gt;&nbsp;&nbsp;&lt;span id="Countrytext"&gt;ESP&lt;/span&gt; &lt;/a&gt;<br/>
+       &lt;ul class="dropdown-menu pull-right"&gt;<br/>
+        &lt;li class="active" id="countryItemUS"&gt;&lt;a href="javascript:void(0);"&gt; &lt;img class="flag flag-us" alt="United States" src="/Templates/img/blank.gif"&gt; &lt;span id="CountryTextUS"&gt;US&lt;/span&gt; &lt;/a&gt;&lt;/li&gt;<br/>
+        &lt;li id="countryItemESP"&gt;&lt;a href="javascript:void(0);"&gt; &lt;img class="flag flag-es" alt="Español" src="/Templates/img/blank.gif"&gt; &lt;span id="CountryTextESP"&gt;ESP&lt;/span&gt; &lt;/a&gt;&lt;/li&gt;<br/>
+       &lt;/ul&gt;&lt;/li&gt;&lt;!-- Profile --&gt;<br/>
+      &lt;li class="profile dropdown"&gt;&lt;a class="dropdown-toggle" data-toggle="dropdown" href="#"&gt; &lt;strong&gt; &lt;span style="text-transform: capitalize;"&gt; Kevin Abdiel &lt;/span&gt; &lt;/strong&gt; &lt;span&gt;&lt;i class="fa fa-chevron-down"&gt;&lt;/i&gt;&lt;/span&gt; &lt;/a&gt;<br/>
+       &lt;ul class="dropdown-menu"&gt;<br/>
+        &lt;li class="margin-bottom-0"&gt;&lt;a class="clearfix" id="hrefMyAccount" href="#/Administration/MyAccount"&gt; &lt;img id="imgUserAvatar" src="/Images/General/Users.png" alt="me" class="online"&gt;<br/>
+          &lt;div class="detail" style="padding-top: 5px;"&gt;&lt;strong&gt; &lt;span style="text-transform: capitalize;"&gt; Kevin Abdiel &lt;/span&gt; &lt;/strong&gt;<br/>
+           &lt;p class="greyn font-sm margin-bottom-0"&gt;&lt;span&gt; Mi perfil &lt;/span&gt;&lt;/p&gt;<br/>
+          &lt;/div&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+        &lt;li class="divider"&gt;&lt;/li&gt;<br/>
+        &lt;li&gt;&lt;a tabindex="-1" class="main-link" href="javascript:void(0);" data-action="launchFullscreen" title="Pantalla completa"&gt;&lt;i class="fa fa-arrows-alt fa-lg"&gt;&lt;/i&gt;&nbsp; Pantalla completa&lt;/a&gt;&lt;/li&gt;<br/>
+        &lt;li class="divider"&gt;&lt;/li&gt;<br/>
+        &lt;li&gt;&lt;a tabindex="-1" class="main-link logoutConfirm_open" href="javascript:LogOut();" title="Salir" data-action="LogOut" data-logout-title="&nbsp; ¿Realmente deseas salir" data-logout-msg="Si desea salir de la aplicación acepte este mensaje, será redireccionado a la página de iniciar sesión"&gt;&lt;i class="fa fa-sign-out fa-lg"&gt;&lt;/i&gt;Salir&lt;/a&gt;&lt;/li&gt;<br/>
+       &lt;/ul&gt;&lt;/li&gt;<br/>
+     &lt;/ul&gt;<br/>
+     &lt;div class="pull-right buttons_head non-printable"&gt;<br/>
+      &lt;div&gt;&lt;span id="TiempoSession"&gt;&lt;/span&gt;<br/>
+      &lt;/div&gt;<br/>
+     &lt;/div&gt;<br/>
+    &lt;/div&gt;<br/>
+   &lt;/div&gt;<br/>
+  &lt;/header&gt;&lt;!-- Left navigation --&gt;<br/>
+  &lt;aside id="left-panel" class="non-printable skin"&gt;<br/>
+   &lt;nav class="main-menu"&gt;<br/>
+    &lt;ul&gt;<br/>
+     &lt;li class="active"&gt;&lt;a href="/Home/Home"&gt;&lt;i class="fa fa-lg fa-fw fa-home"&gt;&lt;/i&gt;Inicio&lt;span class="menu-item-parent"&gt;&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+     &lt;li&gt;&lt;a href="#"&gt;&lt;i class="fa fa-lg fa-fw fa-puzzle-piece"&gt;&lt;/i&gt;Módulos&lt;span class="menu-item-parent"&gt;&lt;/span&gt;&lt;b class="collapse-sign"&gt;&lt;em class="fa fa-plus-square-o"&gt;&lt;/em&gt;&lt;/b&gt;&lt;/a&gt;<br/>
+      &lt;ul&gt;<br/>
+       &lt;li&gt;&lt;a href="#" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Dispositivos (DMS)&lt;/span&gt;&lt;b class="collapse-sign"&gt;&lt;em class="fa fa-plus-square-o"&gt;&lt;/em&gt;&lt;/b&gt;&lt;/a&gt;<br/>
+        &lt;ul&gt;<br/>
+         &lt;li&gt;&lt;a href="/DMS/DeviceTableParameters" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Parámetros&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/DMS/Tasks" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Tareas&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/DMS/DeviceApplications" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Aplicaciones&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="#" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Campos&lt;/span&gt;&lt;b class="collapse-sign"&gt;&lt;em class="fa fa-plus-square-o"&gt;&lt;/em&gt;&lt;/b&gt;&lt;/a&gt;<br/>
+          &lt;ul&gt;<br/>
+           &lt;li&gt;&lt;a href="/DMS/FieldsEvent" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Eventos&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+           &lt;li&gt;&lt;a href="/DMS/DMSViews" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Vistas&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+          &lt;/ul&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/DMS/Keys" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Llaves (SKL)&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/DMS/DeviceTableEditor" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Editor&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+        &lt;/ul&gt;&lt;/li&gt;<br/>
+       &lt;li&gt;&lt;a href="#" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Eventos (EMS)&lt;/span&gt;&lt;b class="collapse-sign"&gt;&lt;em class="fa fa-plus-square-o"&gt;&lt;/em&gt;&lt;/b&gt;&lt;/a&gt;<br/>
+        &lt;ul&gt;<br/>
+         &lt;li&gt;&lt;a href="/EMS/EMSSettings" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Configuración&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/EMS/EventsGroups" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Grupos de Eventos&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/EMS/EventsTypes" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Tipos de Eventos&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+        &lt;/ul&gt;&lt;/li&gt;<br/>
+       &lt;li&gt;&lt;a href="#" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Estadisticas (SLF)&lt;/span&gt;&lt;b class="collapse-sign"&gt;&lt;em class="fa fa-plus-square-o"&gt;&lt;/em&gt;&lt;/b&gt;&lt;/a&gt;<br/>
+        &lt;ul&gt;<br/>
+         &lt;li&gt;&lt;a href="/SLF/GraphGroup" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Grupos de Gráficas&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+        &lt;/ul&gt;&lt;/li&gt;<br/>
+       &lt;li&gt;&lt;a href="#" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Inventarios (DIS)&lt;/span&gt;&lt;b class="collapse-sign"&gt;&lt;em class="fa fa-plus-square-o"&gt;&lt;/em&gt;&lt;/b&gt;&lt;/a&gt;<br/>
+        &lt;ul&gt;<br/>
+         &lt;li&gt;&lt;a href="/CheckIn/CheckIn" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Ingresos&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/Allocation/Allocation" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Asignación&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/Allocation/InventoryOutput" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Salidas&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/Warehouse/Warehouse" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Bodegas&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/Warehouse/WarehouseManager" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Listado de Inventario&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+        &lt;/ul&gt;&lt;/li&gt;<br/>
+       &lt;li&gt;&lt;a href="#" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Cuentas (CMS)&lt;/span&gt;&lt;b class="collapse-sign"&gt;&lt;em class="fa fa-plus-square-o"&gt;&lt;/em&gt;&lt;/b&gt;&lt;/a&gt;<br/>
+        &lt;ul&gt;<br/>
+         &lt;li&gt;&lt;a href="#" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Configuración&lt;/span&gt;&lt;b class="collapse-sign"&gt;&lt;em class="fa fa-plus-square-o"&gt;&lt;/em&gt;&lt;/b&gt;&lt;/a&gt;<br/>
+          &lt;ul&gt;<br/>
+           &lt;li&gt;&lt;a href="/CMS/Product" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Programas&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+           &lt;li&gt;&lt;a href="/CMS/PaymentSettings" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Liquidación&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+           &lt;li&gt;&lt;a href="/CMS/Corporate" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Empresas&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+          &lt;/ul&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/CMS/Holder" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Tarjetahabientes&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/CMS/Card" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Tarjetas&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/CMS/Account" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Cuentas&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/CMS/CardStatus" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Cambio de estado de tarjeta&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/CMS/AccountStatement" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Estados de cuenta&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/CMS/BatchManagement" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Gestión de lotes&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/CMS/Dashboard" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Dashboard&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/CMS/OperationBoard" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Visor de Operaciones&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+        &lt;/ul&gt;&lt;/li&gt;<br/>
+       &lt;li&gt;&lt;a href="#" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Portal (LWV)&lt;/span&gt;&lt;b class="collapse-sign"&gt;&lt;em class="fa fa-plus-square-o"&gt;&lt;/em&gt;&lt;/b&gt;&lt;/a&gt;<br/>
+        &lt;ul&gt;<br/>
+         &lt;li&gt;&lt;a href="/LWV/MapaRegiones" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Mapa Regiones&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/LWV/InfografiaLwv" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Infografia&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/LWV/DeviceClosures" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Visor de Cierres&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/Administration/UserControl" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Usuarios Comercios &lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/LWV/TransactionBoard" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Visor de transacciones&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+        &lt;/ul&gt;&lt;/li&gt;<br/>
+       &lt;li&gt;&lt;a href="#" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;POS Virtual (vPOS)&lt;/span&gt;&lt;b class="collapse-sign"&gt;&lt;em class="fa fa-plus-square-o"&gt;&lt;/em&gt;&lt;/b&gt;&lt;/a&gt;<br/>
+        &lt;ul&gt;<br/>
+         &lt;li&gt;&lt;a href="/vPOS/Transactions" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Transacciones&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/vPOS/Voids" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Anulaciones&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/vPOS/Settlements" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Cierre de Lote&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/vPOS/Configuration" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Configuración&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/vPOS/TransactionType" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Tipo de Transacciones&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+        &lt;/ul&gt;&lt;/li&gt;<br/>
+       &lt;li&gt;&lt;a href="#" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Proceso de archivos (SFP)&lt;/span&gt;&lt;b class="collapse-sign"&gt;&lt;em class="fa fa-plus-square-o"&gt;&lt;/em&gt;&lt;/b&gt;&lt;/a&gt;<br/>
+        &lt;ul&gt;<br/>
+         &lt;li&gt;&lt;a href="/SFP/Configuration" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Configuración&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/SFP/Processing" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Monitoreo&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+        &lt;/ul&gt;&lt;/li&gt;<br/>
+      &lt;/ul&gt;&lt;/li&gt;<br/>
+     &lt;li&gt;&lt;a href="#"&gt;&lt;i class="fa fa-lg fa-fw fa-bar-chart-o"&gt;&lt;/i&gt;Monitorear&lt;span class="menu-item-parent"&gt;&lt;/span&gt;&lt;b class="collapse-sign"&gt;&lt;em class="fa fa-plus-square-o"&gt;&lt;/em&gt;&lt;/b&gt;&lt;/a&gt;<br/>
+      &lt;ul&gt;<br/>
+       &lt;li&gt;&lt;a href="/DMS/TasksDashboard" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Dashboard de Tareas&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+       &lt;li&gt;&lt;a href="/EMS/DevicesMap" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Mapa de Terminales&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+       &lt;li&gt;&lt;a href="/EMS/ActivityMonitor" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Monitor de Actividad&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+       &lt;li&gt;&lt;a href="/DMS/TasksCalendar" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Calendario&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+       &lt;li&gt;&lt;a href="/DMS/ApplicationsDashboard" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Descarga de Aplicaciones&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+       &lt;li&gt;&lt;a href="/EMS/EventsDashboard" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Dashboard de Eventos&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+      &lt;/ul&gt;&lt;/li&gt;<br/>
+     &lt;li&gt;&lt;a href="#"&gt;&lt;i class="fa fa-lg fa-fw fa-pencil-square-o"&gt;&lt;/i&gt;Analizar&lt;span class="menu-item-parent"&gt;&lt;/span&gt;&lt;b class="collapse-sign"&gt;&lt;em class="fa fa-plus-square-o"&gt;&lt;/em&gt;&lt;/b&gt;&lt;/a&gt;<br/>
+      &lt;ul&gt;<br/>
+       &lt;li&gt;&lt;a href="/DMS/Analysis" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Análisis (DMS)&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+       &lt;li&gt;&lt;a href="/SLF/GlobalStatDevices" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Estadísticas&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+       &lt;li&gt;&lt;a href="/LWV/TransactionBoard" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Visor de Transacciones&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+       &lt;li&gt;&lt;a href="/LWV/DeviceClosures" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Visor de cierres&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+       &lt;li&gt;&lt;a href="/DCI/DashboardSettlements" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Estadísticas de Cierres&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+      &lt;/ul&gt;&lt;/li&gt;<br/>
+     &lt;li&gt;&lt;a href="/Report/SLFReports"&gt;&lt;i class="fa fa-lg fa-fw fa-file-o"&gt;&lt;/i&gt;Reportes&lt;span class="menu-item-parent"&gt;&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+     &lt;li&gt;&lt;a href="#"&gt;&lt;i class="fa fa-lg fa-fw fa-user"&gt;&lt;/i&gt;Administrar&lt;span class="menu-item-parent"&gt;&lt;/span&gt;&lt;b class="collapse-sign"&gt;&lt;em class="fa fa-plus-square-o"&gt;&lt;/em&gt;&lt;/b&gt;&lt;/a&gt;<br/>
+      &lt;ul&gt;<br/>
+       &lt;li&gt;&lt;a href="/Administration/Account" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Comercios&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+       &lt;li&gt;&lt;a href="/Administration/Account_Type" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Tipo de Comercios&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+       &lt;li&gt;&lt;a href="/Product/Product" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Productos&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+       &lt;li&gt;&lt;a href="Administration/NewDeviceManager" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Dispositivos&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+       &lt;li&gt;&lt;a href="#" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Host&lt;/span&gt;&lt;b class="collapse-sign"&gt;&lt;em class="fa fa-plus-square-o"&gt;&lt;/em&gt;&lt;/b&gt;&lt;/a&gt;<br/>
+        &lt;ul&gt;<br/>
+         &lt;li&gt;&lt;a href="/Administration/HostPort" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Puertos&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/Administration/HostAuthorizer" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Autorizador&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/Administration/XrefPortAuthorizers" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Autorizacion de Puertos&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/Administration/RedirectionRules" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Redirección&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/Administration/Conectors" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Conectores&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+        &lt;/ul&gt;&lt;/li&gt;<br/>
+       &lt;li&gt;&lt;a href="#" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Perfiles&lt;/span&gt;&lt;b class="collapse-sign"&gt;&lt;em class="fa fa-plus-square-o"&gt;&lt;/em&gt;&lt;/b&gt;&lt;/a&gt;<br/>
+        &lt;ul&gt;<br/>
+         &lt;li&gt;&lt;a href="/Administration/Users" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Usuarios&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/Administration/Group" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Grupo&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+        &lt;/ul&gt;&lt;/li&gt;<br/>
+       &lt;li&gt;&lt;a href="#" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Configuración&lt;/span&gt;&lt;b class="collapse-sign"&gt;&lt;em class="fa fa-plus-square-o"&gt;&lt;/em&gt;&lt;/b&gt;&lt;/a&gt;<br/>
+        &lt;ul&gt;<br/>
+         &lt;li&gt;&lt;a href="/Administration/SystemConfiguration" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;General&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/Administration/GlobalRules" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Seguridad&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/Administration/LWVConfiguration" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Personalización&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/Administration/ModifyRegions" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Regiones y Ciudades&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/Administration/apiAdministration" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;APIs Kinpos CSI&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+         &lt;li&gt;&lt;a href="/Administration/TransferFiles" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Transferencia de Archivos&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+        &lt;/ul&gt;&lt;/li&gt;<br/>
+      &lt;/ul&gt;&lt;/li&gt;<br/>
+     &lt;li&gt;&lt;a href="#"&gt;&lt;i class="fa fa-lg fa-fw fa-check-square-o"&gt;&lt;/i&gt;Auditoría&lt;span class="menu-item-parent"&gt;&lt;/span&gt;&lt;b class="collapse-sign"&gt;&lt;em class="fa fa-plus-square-o"&gt;&lt;/em&gt;&lt;/b&gt;&lt;/a&gt;<br/>
+      &lt;ul&gt;<br/>
+       &lt;li&gt;&lt;a href="/Administration/SystemAudit" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Sistema&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+       &lt;li&gt;&lt;a href="/DMS/AuditDMS" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;DMS&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+       &lt;li&gt;&lt;a href="/Administration/SystemErrors" class="menuitemlinktype"&gt;&lt;span class="menu-item-parent"&gt;Errores&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+      &lt;/ul&gt;&lt;/li&gt;<br/>
+     &lt;li&gt;&lt;a href="/Administration/About"&gt;&lt;i class="fa fa-lg fa-fw fa-info"&gt;&lt;/i&gt;Acerca de&lt;span class="menu-item-parent"&gt;&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+     &lt;li&gt;&lt;a href="#" onclick="LogOut();"&gt;&lt;i class="fa fa-lg fa-fw fa-sign-out"&gt;&lt;/i&gt;Salir&lt;span class="menu-item-parent"&gt;&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;<br/>
+    &lt;/ul&gt;<br/>
+   &lt;/nav&gt;<br/>
+  &lt;/aside&gt;&lt;!-- Main div --&gt;<br/>
+  &lt;div id="main" role="main" style="padding-bottom: 0;"&gt;<br/>
+   &lt;div id="ribbon" class="non-printable"&gt;&lt;!-- Breadcrumb --&gt;<br/>
+    &lt;ol class="breadcrumb"&gt;<br/>
+     &lt;li&gt;Home&lt;/li&gt;<br/>
+     &lt;li&gt;Inicio&lt;/li&gt;<br/>
+    &lt;/ol&gt;<br/>
+   &lt;/div&gt;<br/>
+   &lt;div id="KExpiredLicenseMessage" class="hidden"&gt;<br/>
+    Mensaje de prueba: Su Licencia está a &lt;text id="KExpiredLicenseMessagetext"&gt;&lt;/text&gt; de vencer. Por favor paguela pronto.<br/>
+   &lt;/div&gt;&lt;!-- Main content --&gt;<br/>
+   &lt;div id="content" class="skin" style="max-width: 1400px; margin: auto; opacity: 1;"&gt;<br/>
+    &lt;title&gt;Dashboard de transacciones&lt;/title&gt;<br/>
+    &lt;style&gt;<br/>
+        .k-animation-container .k-filter-help-text {<br/>
+            display: none;<br/>
+        }<br/>
+<br/>
+        span.k-button.k-button-icon.k-bare.k-tabstrip-prev {<br/>
+            background: #b3bbc5 !important;<br/>
+        }<br/>
+<br/>
+        span.k-button.k-button-icon.k-bare.k-tabstrip-next {<br/>
+            background: #b3bbc5 !important;<br/>
+        }<br/>
+    &lt;/style&gt;<br/>
+    &lt;script type="text/javascript"&gt;<br/>
+        _TokenHeaderValue = 'p4d+iOTsUtnOAdayDy0Vi0f0V5mrIweXUDnQRIAjfzZOUHrpsnVU6Ag2mK6MhZaASA0/SnGp6CKPoy8K5H9XUAzzeXqIYI8mkJOjgUnxHjmpaFXYgAVDrQptZ9Cob6JtjSH4lYXxKPhnA97qbMiu5JPWkd7IqFr4Iiuc6hiWc+eA';<br/>
+    &lt;/script&gt;<br/>
+    &lt;div id="content"&gt;<br/>
+     &lt;div id="widget-grid" class=""&gt;<br/>
+      &lt;div class="row"&gt;<br/>
+       &lt;article class="col-sm-12 sortable-grid ui-sortable"&gt;<br/>
+        &lt;div class="jarviswidget jarviswidget-color-blueDark jarviswidget-sortable" id="wid-id-0" data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-fullscreenbutton="false" data-widget-colorbutton="false" data-widget-deletebutton="false" role="widget"&gt;<br/>
+         &lt;header role="heading" class="ui-sortable-handle"&gt;&lt;span class="widget-icon"&gt; &lt;i class="glyphicon glyphicon-stats "&gt;&lt;/i&gt; &lt;/span&gt;<br/>
+          &lt;h3&gt;Transacciones&lt;/h3&gt;&lt;span class="jarviswidget-loader"&gt;&lt;i class="fa fa-refresh fa-spin"&gt;&lt;/i&gt;&lt;/span&gt;<br/>
+         &lt;/header&gt;<br/>
+         &lt;div class="no-padding" role="content"&gt;<br/>
+          &lt;div class="jarviswidget-editbox"&gt;&lt;/div&gt;<br/>
+          &lt;div class="widget-body home-dash"&gt;<br/>
+           &lt;div id="example"&gt;<br/>
+            &lt;div class="demo-section home-dash"&gt;<br/>
+             &lt;div class="col-sm-6"&gt;<br/>
+              &lt;h5 class="example-subtitle"&gt;Cantidad de transacciones &lt;span class="metric"&gt; durante &lt;span class="selected-year"&gt;Diciembre&lt;/span&gt;&lt;/span&gt;&lt;/h5&gt;<br/>
+              &lt;div id="chart-type-chooser"&gt;&lt;!-- Tipo de grafica --&gt; &lt;strong class="example-subtitle radio-group-label"&gt;Tipo de gráfica:&lt;/strong&gt;<br/>
+               &lt;ul class="radio-group"&gt;<br/>
+                &lt;li&gt;&lt;input type="radio" name="chart-type" value="line" id="chart-type-line" checked&gt;&lt;label for="chart-type-line"&gt;Linea&lt;/label&gt;&lt;/li&gt;<br/>
+                &lt;li&gt;&lt;input type="radio" name="chart-type" value="area" id="chart-type-area"&gt;&lt;label for="chart-type-area"&gt;Area&lt;/label&gt;&lt;/li&gt;<br/>
+               &lt;/ul&gt;<br/>
+              &lt;/div&gt;<br/>
+              &lt;div id="yearly-stock-prices" data-role="chart" class=" k-chart" style="position: relative;"&gt;<br/>
+               &lt;canvas style="width: 100%; height: 100%;" width="787" height="250"&gt;&lt;/canvas&gt;<br/>
+              &lt;/div&gt;&lt;!-- Grafica--&gt;<br/>
+              &lt;script type="text/x-kendo-template" id="company-info-template"&gt;<br/>
+                                                    &lt;dl class="stat first"&gt;<br/>
+                                                        &lt;dd class="eoy-closing"&gt;&lt;/dd&gt;<br/>
+                                                        &lt;dt class="example-subtitle"&gt;<br/>
+                                                            #= name #<br/>
+                                                            &lt;span class="metric"&gt;#= totaltransactions #&lt;/span&gt;<br/>
+                                                        &lt;/dt&gt;<br/>
+                                                    &lt;/dl&gt;<br/>
+                                                    &lt;div class="company-trends"&gt;<br/>
+                                                        &lt;div class="example-subtitle title_main"&gt;<br/>
+                                                            #= transactions # #= duringyear #<br/>
+                                                        &lt;/div&gt;<br/>
+                                                        &lt;dl class="stat trend-container highest-container"&gt;<br/>
+                                                            &lt;dd class="highest"&gt;&lt;/dd&gt;<br/>
+                                                            &lt;dt class="example-subtitle"&gt;#= dailymax #&lt;/dt&gt;<br/>
+                                                            &lt;!--&lt;dd class="sparkline highest-sparkline"&gt;&lt;/dd&gt;--&gt;<br/>
+                                                            &lt;span class="border_stats"&gt;&lt;/span&gt;<br/>
+                                                        &lt;/dl&gt;<br/>
+                                                        &lt;dl class="stat trend-container lowest-container"&gt;<br/>
+                                                            &lt;dd class="lowest"&gt;&lt;/dd&gt;<br/>
+                                                            &lt;dt class="example-subtitle"&gt;#= dailymin #&lt;/dt&gt;<br/>
+                                                            &lt;!--&lt;dd class="sparkline lowest-sparkline"&gt;&lt;/dd&gt;--&gt;<br/>
+                                                            &lt;span class="border_stats"&gt;&lt;/span&gt;<br/>
+                                                        &lt;/dl&gt;<br/>
+                                                        &lt;dl class="stat trend-container"&gt;<br/>
+                                                            &lt;dd class="relative-value"&gt;&lt;/dd&gt;<br/>
+                                                            &lt;dt class="example-subtitle"&gt;#= difference # %&lt;/dt&gt;<br/>
+                                                            &lt;!--&lt;dd class="sparkline relative-value-sparkline"&gt;&lt;/dd&gt;--&gt;<br/>
+                                                            &lt;span class="border_stats"&gt;&lt;/span&gt;<br/>
+                                                        &lt;/dl&gt;<br/>
+                                                        &lt;div class="relative-value-pie"&gt;&lt;/div&gt;<br/>
+                                                    &lt;/div&gt;<br/>
+                                                &lt;/script&gt;<br/>
+              &lt;h6&gt;Filtro por mes&lt;/h6&gt;&lt;a href="javascript:void(0);" class="ver_mas" id="filtro_mes"&gt;+&lt;/a&gt;<br/>
+              &lt;div class="k-tabstrip-wrapper"&gt;<br/>
+               &lt;div id="year-filtering-tabs" class="filtering-tabs k-widget k-header k-tabstrip k-tabstrip-scrollable k-floatwrap k-tabstrip-top" data-role="tabstrip" tabindex="0" role="tablist" aria-activedescendant="year-filtering-tabs_ts_active"&gt;<br/>
+                &lt;ul class="k-tabstrip-items k-reset" style="margin-left: 41.5625px; margin-right: 44.5625px;"&gt;<br/>
+                 &lt;li class="k-item k-state-default k-first" role="tab" aria-controls="year-filtering-tabs-1"&gt;&lt;span class="k-loading k-complete"&gt;&lt;/span&gt;&lt;span class="k-link"&gt;Enero&lt;/span&gt;&lt;/li&gt;<br/>
+                 &lt;li class="k-item k-state-default" role="tab" aria-controls="year-filtering-tabs-2"&gt;&lt;span class="k-loading k-complete"&gt;&lt;/span&gt;&lt;span class="k-link"&gt;Febrero&lt;/span&gt;&lt;/li&gt;<br/>
+                 &lt;li class="k-item k-state-default" role="tab" aria-controls="year-filtering-tabs-3"&gt;&lt;span class="k-loading k-complete"&gt;&lt;/span&gt;&lt;span class="k-link"&gt;Marzo&lt;/span&gt;&lt;/li&gt;<br/>
+                 &lt;li class="k-item k-state-default" role="tab" aria-controls="year-filtering-tabs-4"&gt;&lt;span class="k-loading k-complete"&gt;&lt;/span&gt;&lt;span class="k-link"&gt;Abril&lt;/span&gt;&lt;/li&gt;<br/>
+                 &lt;li class="k-item k-state-default" role="tab" aria-controls="year-filtering-tabs-5"&gt;&lt;span class="k-loading k-complete"&gt;&lt;/span&gt;&lt;span class="k-link"&gt;Mayo&lt;/span&gt;&lt;/li&gt;<br/>
+                 &lt;li class="k-item k-state-default" role="tab" aria-controls="year-filtering-tabs-6"&gt;&lt;span class="k-loading k-complete"&gt;&lt;/span&gt;&lt;span class="k-link"&gt;Junio&lt;/span&gt;&lt;/li&gt;<br/>
+                 &lt;li class="k-item k-state-default" role="tab" aria-controls="year-filtering-tabs-7"&gt;&lt;span class="k-loading k-complete"&gt;&lt;/span&gt;&lt;span class="k-link"&gt;Julio&lt;/span&gt;&lt;/li&gt;<br/>
+                 &lt;li class="k-item k-state-default" role="tab" aria-controls="year-filtering-tabs-8"&gt;&lt;span class="k-loading k-complete"&gt;&lt;/span&gt;&lt;span class="k-link"&gt;Agosto&lt;/span&gt;&lt;/li&gt;<br/>
+                 &lt;li class="k-item k-state-default" role="tab" aria-controls="year-filtering-tabs-9"&gt;&lt;span class="k-loading k-complete"&gt;&lt;/span&gt;&lt;span class="k-link"&gt;Septiembre&lt;/span&gt;&lt;/li&gt;<br/>
+                 &lt;li class="k-item k-state-default" role="tab" aria-controls="year-filtering-tabs-10"&gt;&lt;span class="k-loading k-complete"&gt;&lt;/span&gt;&lt;span class="k-link"&gt;Octubre&lt;/span&gt;&lt;/li&gt;<br/>
+                 &lt;li class="k-item k-state-default" role="tab" aria-controls="year-filtering-tabs-11"&gt;&lt;span class="k-loading k-complete"&gt;&lt;/span&gt;&lt;span class="k-link"&gt;Noviembre&lt;/span&gt;&lt;/li&gt;<br/>
+                 &lt;li class="k-item k-state-default k-last k-tab-on-top k-state-active" role="tab" aria-controls="year-filtering-tabs-12" id="year-filtering-tabs_ts_active" style=""&gt;&lt;span class="k-loading k-complete"&gt;&lt;/span&gt;&lt;span class="k-link"&gt;Diciembre&lt;/span&gt;&lt;/li&gt;<br/>
+                &lt;/ul&gt;&lt;span class="k-button k-button-icon k-bare k-tabstrip-prev" unselectable="on" style=""&gt;&lt;span class="k-icon k-i-arrow-60-left"&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="k-button k-button-icon k-bare k-tabstrip-next" unselectable="on"&gt;&lt;span class="k-icon k-i-arrow-60-right"&gt;&lt;/span&gt;&lt;/span&gt;<br/>
+               &lt;/div&gt;<br/>
+              &lt;/div&gt;&lt;!-- Filtrar por fechas --&gt;<br/>
+              &lt;h6&gt;Filtro por transacción&lt;/h6&gt;<br/>
+              &lt;div class="k-tabstrip-wrapper"&gt;<br/>
+               &lt;div id="company-filtering-tabs" class="filtering-tabs k-widget k-header k-tabstrip k-tabstrip-scrollable k-floatwrap k-tabstrip-top" data-role="tabstrip" tabindex="0" role="tablist" aria-activedescendant="company-filtering-tabs_ts_active"&gt;<br/>
+                &lt;ul class="k-tabstrip-items k-reset" style="margin-left: 41.5625px; margin-right: 44.5625px;"&gt;<br/>
+                 &lt;li class="k-item k-state-default k-first k-tab-on-top k-state-active" role="tab" aria-controls="company-filtering-tabs-1" id="company-filtering-tabs_ts_active" style=""&gt;&lt;span class="k-loading k-complete"&gt;&lt;/span&gt;&lt;span class="k-link"&gt;0100: Consultas&lt;/span&gt;&lt;/li&gt;<br/>
+                 &lt;li class="k-item k-state-default" role="tab" aria-controls="company-filtering-tabs-2"&gt;&lt;span class="k-loading k-complete"&gt;&lt;/span&gt;&lt;span class="k-link"&gt;0200: Ventas&lt;/span&gt;&lt;/li&gt;<br/>
+                 &lt;li class="k-item k-state-default" role="tab" aria-controls="company-filtering-tabs-3"&gt;&lt;span class="k-loading k-complete"&gt;&lt;/span&gt;&lt;span class="k-link"&gt;0400: Anulaciones&lt;/span&gt;&lt;/li&gt;<br/>
+                 &lt;li class="k-item k-state-default" role="tab" aria-controls="company-filtering-tabs-4"&gt;&lt;span class="k-loading k-complete"&gt;&lt;/span&gt;&lt;span class="k-link"&gt;0500: Cierres&lt;/span&gt;&lt;/li&gt;<br/>
+                 &lt;li class="k-item k-state-default" role="tab" aria-controls="company-filtering-tabs-5"&gt;&lt;span class="k-loading k-complete"&gt;&lt;/span&gt;&lt;span class="k-link"&gt;0600: Administrativas&lt;/span&gt;&lt;/li&gt;<br/>
+                 &lt;li class="k-item k-state-default k-last" role="tab" aria-controls="company-filtering-tabs-6"&gt;&lt;span class="k-loading k-complete"&gt;&lt;/span&gt;&lt;span class="k-link"&gt;0800: Inicializaciones&lt;/span&gt;&lt;/li&gt;<br/>
+                &lt;/ul&gt;&lt;span class="k-button k-button-icon k-bare k-tabstrip-prev" unselectable="on" style="display: none;"&gt;&lt;span class="k-icon k-i-arrow-60-left"&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class="k-button k-button-icon k-bare k-tabstrip-next" unselectable="on"&gt;&lt;span class="k-icon k-i-arrow-60-right"&gt;&lt;/span&gt;&lt;/span&gt;<br/>
+               &lt;/div&gt;<br/>
+              &lt;/div&gt;<br/>
+             &lt;/div&gt;<br/>
+             &lt;div class="col-sm-6"&gt;<br/>
+              &lt;div class="company-info" id="0100"&gt;<br/>
+               &lt;dl class="stat first"&gt;<br/>
+                &lt;dd class="eoy-closing"&gt;&lt;/dd&gt;<br/>
+                &lt;dt class="example-subtitle"&gt;<br/>
+                 0100: Consultas &lt;span class="metric"&gt;Total durante el mes&lt;/span&gt;<br/>
+                &lt;/dt&gt;<br/>
+               &lt;/dl&gt;<br/>
+               &lt;div class="company-trends"&gt;<br/>
+                &lt;div class="example-subtitle title_main"&gt;<br/>
+                 Transacciones durante el año<br/>
+                &lt;/div&gt;<br/>
+                &lt;dl class="stat trend-container highest-container"&gt;<br/>
+                 &lt;dd class="highest"&gt;&lt;/dd&gt;<br/>
+                 &lt;dt class="example-subtitle"&gt;<br/>
+                  Máximo diario<br/>
+                 &lt;/dt&gt;&lt;!--&lt;dd class="sparkline highest-sparkline"&gt;&lt;/dd&gt;--&gt; &lt;span class="border_stats"&gt;&lt;/span&gt;<br/>
+                &lt;/dl&gt;<br/>
+                &lt;dl class="stat trend-container lowest-container"&gt;<br/>
+                 &lt;dd class="lowest"&gt;&lt;/dd&gt;<br/>
+                 &lt;dt class="example-subtitle"&gt;<br/>
+                  Mínimo diario<br/>
+                 &lt;/dt&gt;&lt;!--&lt;dd class="sparkline lowest-sparkline"&gt;&lt;/dd&gt;--&gt; &lt;span class="border_stats"&gt;&lt;/span&gt;<br/>
+                &lt;/dl&gt;<br/>
+                &lt;dl class="stat trend-container"&gt;<br/>
+                 &lt;dd class="relative-value"&gt;&lt;/dd&gt;<br/>
+                 &lt;dt class="example-subtitle"&gt;<br/>
+                  Diferencia %<br/>
+                 &lt;/dt&gt;&lt;!--&lt;dd class="sparkline relative-value-sparkline"&gt;&lt;/dd&gt;--&gt; &lt;span class="border_stats"&gt;&lt;/span&gt;<br/>
+                &lt;/dl&gt;<br/>
+                &lt;div class="relative-value-pie"&gt;&lt;/div&gt;<br/>
+               &lt;/div&gt;<br/>
+              &lt;/div&gt;<br/>
+             &lt;/div&gt;<br/>
+            &lt;/div&gt;<br/>
+           &lt;/div&gt;<br/>
+          &lt;/div&gt;<br/>
+         &lt;/div&gt;<br/>
+        &lt;/div&gt;<br/>
+       &lt;/article&gt;<br/>
+      &lt;/div&gt;&lt;!--Esta linea de codigo es el antiguo mensaje del movimiento de transacciones<br/>
+                 Usa la clase alertMessTransla --&gt;<br/>
+     &lt;/div&gt;<br/>
+    &lt;/div&gt;<br/>
+    &lt;script type="text/javascript"&gt;<br/>
+        var date = new Date();<br/>
+        var _timer;<br/>
+        var intervaltime = 300000;<br/>
+<br/>
+        function setup() {<br/>
+            var selectedYear = date.getFullYear();<br/>
+            var selectedMonth = date.getMonth() + 1;<br/>
+            var selectedMti = '0100';<br/>
+            var hightestValue = 0, lowestValue = 0, totalValue = 0;<br/>
+<br/>
+            var stocksDataSource = new kendo.data.DataSource({<br/>
+                transport: {<br/>
+                    read: {<br/>
+                        url: "/Home/GetTransactionsChart",<br/>
+                        dataType: "json",<br/>
+                        cache: false,<br/>
+                        data: { year: selectedYear, month: selectedMonth, mti: selectedMti }<br/>
+                    },<br/>
+                },<br/>
+                group: {<br/>
+                    field: "MTI"<br/>
+                },<br/>
+                sort: {<br/>
+                    field: "Day",<br/>
+                    dir: "asc"<br/>
+                },<br/>
+                change: function () {<br/>
+                    $("[name=chart-type][value=area]").prop("checked", true);<br/>
+                    var view = this.view();<br/>
+                    populateStockPrices(view[0], 0);<br/>
+                }<br/>
+            });<br/>
+<br/>
+            var defaultSeriesColors = ["#70b5dd", "#1083c7", "#1c638d"];<br/>
+<br/>
+            function populateStockPrices(data, companyIndex) {<br/>
+                if (data != null) {<br/>
+                    if (data.items.length &gt;= 1) {<br/>
+                        lowestValue = data.items[0].MinYear;<br/>
+                        hightestValue = data.items[0].MaxYear;<br/>
+                        totalValue = 0;<br/>
+<br/>
+                        for (var i = 0; i &lt; data.items.length; i++) {<br/>
+                            totalValue = totalValue + data.items[i].Quantity;<br/>
+                        }<br/>
+                    }<br/>
+<br/>
+                    var container = $(".company-info"),<br/>
+                        yearlyStockValues = data.items,<br/>
+                        highest = hightestValue,<br/>
+                        lowest = lowestValue,<br/>
+                        volume = 0,<br/>
+                        metric = "",<br/>
+                        format = function (number) {<br/>
+                            return kendo.toString(number, "n0");<br/>
+                        },<br/>
+                        sparklineOptions = function (field, color, data) {<br/>
+                            return {<br/>
+                                renderAs: "canvas",<br/>
+                                dataSource: data || yearlyStockValues,<br/>
+                                series: [{<br/>
+                                    field: field,<br/>
+                                    color: color<br/>
+                                }],<br/>
+                                seriesDefaults: {<br/>
+                                    type: "line",<br/>
+                                    markers: { visible: false },<br/>
+                                    line: { width: 2 }<br/>
+                                },<br/>
+                                axisDefaults: {<br/>
+                                    visible: false,<br/>
+                                    majorGridLines: { visible: false }<br/>
+                                },<br/>
+                                legend: { visible: false }<br/>
+                            };<br/>
+                        };<br/>
+<br/>
+                    function yearlyRelativeValue(stockValues) {<br/>
+                        return (stockValues[0].MaxYear / stockValues[0].MinYear) * 100;<br/>
+                    }<br/>
+<br/>
+                    var relativeValues = $.map(yearlyStockValues, function (item, index) {<br/>
+                        var value = yearlyStockValues[0].MaxYear * 100 / yearlyStockValues[0].MinYear;<br/>
+                        return { value: value };<br/>
+                    });<br/>
+<br/>
+                    var companyRelativeGain = $.map(stocksDataSource.view(), function (data, index) {<br/>
+                        return { value: yearlyRelativeValue(data.items) - 100 };<br/>
+                    });<br/>
+<br/>
+                    container<br/>
+                        .find(".eoy-closing").text(format(totalValue)).end()<br/>
+                        .find(".highest").text(format(highest)).end()<br/>
+                        .find(".lowest").text(format(lowest)).end()<br/>
+                        .find(".lowest-sparkline").kendoChart(sparklineOptions("MinYear", "#cd1533")).end()<br/>
+                        .find(".highest-sparkline").kendoChart(sparklineOptions("MaxYear", "#639514")).end()<br/>
+                        .find(".first dt .metric").eq(1).text(metric).end().end()<br/>
+                        //.find(".volume").text(format(volume)).end()<br/>
+                        .find(".relative-value").text(format(yearlyRelativeValue(yearlyStockValues))).end()<br/>
+                        .find(".relative-value-sparkline").kendoChart(sparklineOptions("Quantity", "#4da3d5", relativeValues)).end()<br/>
+                        .find(".relative-value-pie").kendoChart({<br/>
+                            renderAs: "canvas",<br/>
+                            dataSource: companyRelativeGain,<br/>
+                            seriesDefaults: {<br/>
+                                type: "pie",<br/>
+                                overlay: {<br/>
+                                    gradient: "none"<br/>
+                                }<br/>
+                            },<br/>
+                            seriesColors: defaultSeriesColors,<br/>
+                            series: [{<br/>
+                                field: "Quantity"<br/>
+                            }],<br/>
+                            legend: { visible: false }<br/>
+                        }).end();<br/>
+                } else {<br/>
+                    lowestValue = 0;<br/>
+                    hightestValue = 0;<br/>
+                    totalValue = 0;<br/>
+<br/>
+                    var container = $(".company-info"),<br/>
+                        yearlyStockValues = [],<br/>
+                        highest = hightestValue,<br/>
+                        lowest = lowestValue,<br/>
+                        volume = 0,<br/>
+                        metric = "",<br/>
+                        format = function (number) {<br/>
+                            return kendo.toString(number, "n0");<br/>
+                        },<br/>
+                        sparklineOptions = function (field, color, data) {<br/>
+                            return {<br/>
+                                renderAs: "canvas",<br/>
+                                dataSource: yearlyStockValues,<br/>
+                                series: [{<br/>
+                                    field: field,<br/>
+                                    color: color<br/>
+                                }],<br/>
+                                seriesDefaults: {<br/>
+                                    type: "line",<br/>
+                                    markers: { visible: false },<br/>
+                                    line: { width: 2 }<br/>
+                                },<br/>
+                                axisDefaults: {<br/>
+                                    visible: false,<br/>
+                                    majorGridLines: { visible: false }<br/>
+                                },<br/>
+                                legend: { visible: false }<br/>
+                            };<br/>
+                        };<br/>
+<br/>
+                    function yearlyRelativeValue(stockValues) {<br/>
+                        return 0;<br/>
+                    }<br/>
+<br/>
+                    var relativeValues = $.map(yearlyStockValues, function (item, index) {<br/>
+                        return { value: 0 };<br/>
+                    });<br/>
+<br/>
+                    var companyRelativeGain = $.map(stocksDataSource.view(), function (data, index) {<br/>
+                        return { value: 0 };<br/>
+                    });<br/>
+<br/>
+                    container<br/>
+                        .find(".eoy-closing").text(format(totalValue)).end()<br/>
+                        .find(".highest").text(format(highest)).end()<br/>
+                        .find(".lowest").text(format(lowest)).end()<br/>
+                        .find(".lowest-sparkline").kendoChart(sparklineOptions("MinYear", "#cd1533")).end()<br/>
+                        .find(".highest-sparkline").kendoChart(sparklineOptions("MaxYear", "#639514")).end()<br/>
+                        .find(".first dt .metric").eq(1).text(metric).end().end()<br/>
+                        //.find(".volume").text(format(volume)).end()<br/>
+                        .find(".relative-value").text(format(yearlyRelativeValue(yearlyStockValues))).end()<br/>
+                        .find(".relative-value-sparkline").kendoChart(sparklineOptions("Quantity", "#4da3d5", relativeValues)).end()<br/>
+                        .find(".relative-value-pie").kendoChart({<br/>
+                            renderAs: "canvas",<br/>
+                            dataSource: companyRelativeGain,<br/>
+                            seriesDefaults: {<br/>
+                                type: "pie",<br/>
+                                overlay: {<br/>
+                                    gradient: "none"<br/>
+                                }<br/>
+                            },<br/>
+                            seriesColors: defaultSeriesColors,<br/>
+                            series: [{<br/>
+                                field: "Quantity"<br/>
+                            }],<br/>
+                            legend: { visible: false }<br/>
+                        }).end();<br/>
+                }<br/>
+            }<br/>
+<br/>
+            $("#yearly-stock-prices").kendoChart({<br/>
+                renderAs: "canvas",<br/>
+                dataSource: stocksDataSource,<br/>
+                autoBind: false,<br/>
+                seriesDefaults: {<br/>
+                    type: "area",<br/>
+                    overlay: {<br/>
+                        gradient: "none"<br/>
+                    },<br/>
+                    markers: {<br/>
+                        visible: false<br/>
+                    },<br/>
+                    majorTickSize: 0,<br/>
+                    opacity: .8<br/>
+                },<br/>
+                series: [{<br/>
+                    field: "Quantity"<br/>
+                }],<br/>
+                seriesColors: defaultSeriesColors,<br/>
+                valueAxis: {<br/>
+                    line: {<br/>
+                        visible: false<br/>
+                    },<br/>
+                    labels: {<br/>
+                        format: "{0}",<br/>
+                        skip: 2,<br/>
+                        step: 2,<br/>
+                        color: "#727f8e"<br/>
+                    },<br/>
+                    title: {<br/>
+                        text: ".",<br/>
+                        color: "#727f8e"<br/>
+                    }<br/>
+                },<br/>
+                categoryAxis: {<br/>
+                    field: "Day",<br/>
+                    labels: {<br/>
+                        format: "{0}",<br/>
+                        color: "#727f8e"<br/>
+                    },<br/>
+                    line: {<br/>
+                        visible: false<br/>
+                    },<br/>
+                    majorTicks: {<br/>
+                        visible: false<br/>
+                    },<br/>
+                    majorGridLines: {<br/>
+                        visible: false<br/>
+                    },<br/>
+                    title: {<br/>
+                        text: "D\u00EDas",<br/>
+                        color: "#727f8e",<br/>
+                        position: "top"<br/>
+                    }<br/>
+                },<br/>
+                legend: {<br/>
+                    visible: false<br/>
+                }<br/>
+            });<br/>
+<br/>
+            $("[name=chart-type]").on("click", function () {<br/>
+                var chart = $("#yearly-stock-prices").data("kendoChart"),<br/>
+                    allSeries = chart.options.series,<br/>
+                    newSeriesType = $(this).val();<br/>
+<br/>
+                chart.options.seriesDefaults.type = newSeriesType;<br/>
+<br/>
+                for (var series in allSeries) {<br/>
+                    allSeries[series].type = newSeriesType;<br/>
+                    allSeries[series].opacity = newSeriesType == "area" ? .8 : 1;<br/>
+                }<br/>
+<br/>
+                chart.redraw();<br/>
+            });<br/>
+<br/>
+            var companyInfoTemplate = kendo.template($("#company-info-template").html());<br/>
+<br/>
+            $(".company-info").each(function () {<br/>
+                var panel = $(this);<br/>
+<br/>
+                var scriptData = {<br/>
+                    name: "0100: Consultas",<br/>
+                    totaltransactions: "Total durante el mes",<br/>
+                    transactions: "Transacciones",<br/>
+                    duringyear: "durante el a&#241;o",<br/>
+                    dailymax: "M&#225;ximo diario",<br/>
+                    dailymin: "M&#237;nimo diario",<br/>
+                    difference: "Diferencia"<br/>
+                };<br/>
+<br/>
+                panel.html(companyInfoTemplate(scriptData));<br/>
+            });<br/>
+<br/>
+            var tabStripMonthsData = [{ text: "Enero", value: 01 }, { text: "Febrero", value: 02 }, { text: "Marzo", value: 03 }, { text: "Abril", value: 04 }, { text: "Mayo", value: 05 }, { text: "Junio", value: 06 }, { text: "Julio", value: 07 }, { text: "Agosto", value: 08 }, { text: "Septiembre", value: 09 }, { text: "Octubre", value: 10 }, { text: "Noviembre", value: 11 }, { text: "Diciembre", value: 12 }];<br/>
+<br/>
+            $("#year-filtering-tabs").kendoTabStrip({<br/>
+                dataTextField: "text",<br/>
+                dataSource: tabStripMonthsData,<br/>
+                change: function (e) {<br/>
+                    $(".selected-year").text(this.value());<br/>
+                },<br/>
+                select: function (e) {<br/>
+                    var selectedIndex = $(e.item).index();<br/>
+                    selectedMonth = tabStripMonthsData[selectedIndex].value;<br/>
+<br/>
+                    stocksDataSource.read({ year: selectedYear, month: selectedMonth, mti: selectedMti });<br/>
+                }<br/>
+            }).data("kendoTabStrip").select(selectedMonth - 1);<br/>
+<br/>
+            var tabStripMtiData = [{ text: "0100: Consultas", value: "0100" }, { text: "0200: Ventas", value: "0200" }, { text: "0400: Anulaciones", value: "0400" }, { text: "0500: Cierres", value: "0500" }, { text: "0600: Administrativas", value: "0600" }, { text: "0800: Inicializaciones", value: "0800" }];<br/>
+<br/>
+            $("#company-filtering-tabs").kendoTabStrip({<br/>
+                dataTextField: "text",<br/>
+                dataSource: tabStripMtiData,<br/>
+                select: function (e) {<br/>
+                    var selectedIndex = $(e.item).index();<br/>
+                    var selectMtiName = tabStripMtiData[selectedIndex].text;<br/>
+                    selectedMti = tabStripMtiData[selectedIndex].value;<br/>
+<br/>
+                    var scriptData = {<br/>
+                        name: selectMtiName,<br/>
+                        totaltransactions: "Total durante el mes",<br/>
+                        transactions: "Transacciones",<br/>
+                        duringyear: "durante el a&#241;o",<br/>
+                        dailymax: "M&#225;ximo diario",<br/>
+                        dailymin: "M&#237;nimo diario",<br/>
+                        difference: "Diferencia"<br/>
+                    };<br/>
+<br/>
+                    $(".company-info").html(companyInfoTemplate(scriptData));<br/>
+                    stocksDataSource.read({ year: selectedYear, month: selectedMonth, mti: selectedMti });<br/>
+                }<br/>
+            }).data("kendoTabStrip").select(0);<br/>
+<br/>
+        }<br/>
+<br/>
+        function dataBound() {<br/>
+            $('table').trigger('footable_redraw');<br/>
+        }<br/>
+<br/>
+        $(document).ready(function () {<br/>
+            // DO NOT REMOVE : GLOBAL FUNCTIONS!<br/>
+            pageSetUp();<br/>
+            setup();<br/>
+<br/>
+            $(function () {<br/>
+                $('table').footable();<br/>
+            });<br/>
+<br/>
+            //evento click ver mas year responsive.<br/>
+            $("#filtro_mes").click(function () {<br/>
+                if ($("#year-filtering-tabs .k-tabstrip-items").css("display", "none")) {<br/>
+                    $("#year-filtering-tabs .k-tabstrip-items").css("display", "block")<br/>
+                }<br/>
+                if ($("#year-filtering-tabs .k-tabstrip-items").css("display", "block")) {<br/>
+                    $("#year-filtering-tabs .k-tabstrip-items").css("display", "none")<br/>
+                }<br/>
+<br/>
+            });<br/>
+        });<br/>
+<br/>
+<br/>
+        function GetCheckExpiredDay() {<br/>
+            var Id = '10160';<br/>
+            $.ajax({<br/>
+                type: 'POST',<br/>
+                url: 'Home/GetCheckExpiredDay',<br/>
+                contentType: "application/json; charset=utf-8",<br/>
+                dataType: "json",<br/>
+                data: "{Id:'" + Id + "'}",<br/>
+                cache: false,<br/>
+                success: function (obj) {<br/>
+                    if (obj.result) {<br/>
+                        $('#KExpiredLicenseMessagetext').text(obj.ExpireDate + " días");<br/>
+                        $('#KExpiredLicenseMessage').removeClass("hidden");<br/>
+                    };<br/>
+                },<br/>
+                error: function (obj) {<br/>
+<br/>
+                }<br/>
+            })<br/>
+        };<br/>
+<br/>
+<br/>
+        //function checkLocalStorage() {<br/>
+        //    var counter = localStorage.getItem('msg_counter');<br/>
+<br/>
+        //    if (counter == null || isNaN(counter)) {<br/>
+        //        localStorage.setItem('msg_counter', 0);<br/>
+        //        counter = 0;<br/>
+        //    };<br/>
+<br/>
+        //    if (parseInt(counter) &gt; 10) {<br/>
+        //        localStorage.setItem('msg_counter', counter);<br/>
+        //    } else {<br/>
+        //        counter = parseInt(counter) + 1;<br/>
+        //        localStorage.setItem('msg_counter', counter);<br/>
+        //    };<br/>
+        //};<br/>
+<br/>
+        $(window).on("resize", function () {<br/>
+            kendo.resize($("#yearly-stock-prices"));<br/>
+            $(function () {<br/>
+                $('table').footable();<br/>
+<br/>
+            });<br/>
+        });<br/>
+    &lt;/script&gt;<br/>
+   &lt;/div&gt;<br/>
+   &lt;div class="modal modal-static fade in" id="modalfin" role="dialog" aria-hidden="false" data-backdrop="static" data-keyboard="false" style="flex-wrap: nowrap; align-content: center; justify-content: center; align-items: center;"&gt;<br/>
+    &lt;div class="modal-dialog"&gt;<br/>
+     &lt;div class="modal-content" style="border-radius: 9px; overflow: hidden;"&gt;<br/>
+      &lt;div class="modal-body bg-color-white"&gt;<br/>
+       &lt;div class="text-center"&gt;<br/>
+        &lt;div id="closeSesion" class="hidden"&gt;&lt;img src="/Images/General/Alert_Img.jpg" style="margin: 50px; height: 150px;"&gt; &lt;br&gt;<br/>
+         &lt;h1&gt;&lt;b&gt; Espere un momento&lt;/b&gt;&lt;/h1&gt;<br/>
+         &lt;h3&gt;Estamos cerrando la sesión&lt;/h3&gt;<br/>
+        &lt;/div&gt;<br/>
+        &lt;div id="expirSesion" class="hidden"&gt;&lt;img src="/Images/General/Alert_Img.jpg" style="margin: 50px; height: 150px;"&gt; &lt;br&gt;<br/>
+         &lt;h1&gt;&lt;b&gt;Sesión expirada &lt;/b&gt;&lt;/h1&gt;<br/>
+         &lt;h3&gt;Por seguridad, estamos cerrando la sesión&lt;/h3&gt;<br/>
+        &lt;/div&gt;&lt;br&gt;&lt;br&gt;<br/>
+       &lt;/div&gt;<br/>
+      &lt;/div&gt;<br/>
+     &lt;/div&gt;<br/>
+    &lt;/div&gt;<br/>
+   &lt;/div&gt;<br/>
+  &lt;/div&gt;&lt;!-- Shortcut area --&gt;<br/>
+  &lt;div id="shortcut" class="non-printable"&gt;<br/>
+  &lt;/div&gt;&lt;!--================================================== --&gt; &lt;!-- Link to Google CDN's jQuery + jQueryUI; fall back to local --&gt;<br/>
+  &lt;script src="/Templates/js/libs/jquery-3.7.1.min.js"&gt;&lt;/script&gt;<br/>
+  &lt;script src="/Templates/js/libs/jquery-ui-1.13.2.min.js"&gt;&lt;/script&gt;&lt;!-- KENDO LIBS for MVC--&gt;<br/>
+  &lt;script src="/Templates/js/jszip.min.js"&gt;&lt;/script&gt;<br/>
+  &lt;script src="/Templates/kendo/js/kendo.all.min.js"&gt;&lt;/script&gt;<br/>
+  &lt;script src="/Templates/kendo/js/kendo.aspnetmvc.min.js"&gt;&lt;/script&gt;&lt;!-- IMPORTANT: APP CONFIG --&gt;<br/>
+  &lt;script src="/Templates/js/app.config.js"&gt;&lt;/script&gt;&lt;!-- BOOTSTRAP JS --&gt;<br/>
+  &lt;script src="/Templates/js/bootstrap/bootstrap.min.js"&gt;&lt;/script&gt;&lt;!-- CUSTOM NOTIFICATION --&gt;<br/>
+  &lt;script src="/Templates/js/notification/SmartNotification.min.js"&gt;&lt;/script&gt;&lt;!-- JARVIS WIDGETS --&gt;<br/>
+  &lt;script src="/Templates/js/smartwidgets/jarvis.widget.min.js"&gt;&lt;/script&gt;&lt;!-- EASY PIE CHARTS --&gt;<br/>
+  &lt;script src="/Templates/js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js"&gt;&lt;/script&gt;&lt;!-- SPARKLINES --&gt;<br/>
+  &lt;script src="/Templates/js/plugin/sparkline/jquery.sparkline.min.js"&gt;&lt;/script&gt;&lt;!-- JQUERY VALIDATE --&gt;<br/>
+  &lt;script src="/Templates/js/plugin/jquery-validate/jquery.validate.min.js"&gt;&lt;/script&gt;&lt;!-- JQUERY MASKED INPUT --&gt;<br/>
+  &lt;script src="/Templates/js/jquery.mask.min.js"&gt;&lt;/script&gt;&lt;!-- JQUERY SELECT2 INPUT --&gt;<br/>
+  &lt;script src="/Templates/js/plugin/select2/select2.min.js"&gt;&lt;/script&gt;&lt;!-- JQUERY UI + Bootstrap Slider --&gt;<br/>
+  &lt;script src="/Templates/js/plugin/bootstrap-slider/bootstrap-slider.min.js"&gt;&lt;/script&gt;&lt;!-- browser msie issue fix --&gt;<br/>
+  &lt;script src="/Templates/js/plugin/msie-fix/jquery.mb.browser.min.js"&gt;&lt;/script&gt;&lt;!-- SmartClick: For mobile devices --&gt;<br/>
+  &lt;script src="/Templates/js/plugin/fastclick/fastclick.min.js"&gt;&lt;/script&gt;&lt;!-- Footable: responsive grids --&gt;<br/>
+  &lt;script src="/Templates/js/footable.js" type="text/javascript"&gt;&lt;/script&gt;&lt;!-- mapa de terminales --&gt;<br/>
+  &lt;script src="/Templates/js/markerclusterer.js" type="text/javascript"&gt;&lt;/script&gt;&lt;!-- MAIN APP JS FILES --&gt;<br/>
+  &lt;script src="/Templates/js/app.min.js"&gt;&lt;/script&gt;<br/>
+  &lt;script src="/Templates/js/jquery.tablednd.js"&gt;&lt;/script&gt;<br/>
+  &lt;script src="/scripts/kinpos.min.js"&gt;&lt;/script&gt;<br/>
+  &lt;script src="/scripts/kinpos.global.min.js"&gt;&lt;/script&gt;&lt;!-- Cookie plugin --&gt;<br/>
+  &lt;script src="/Templates/Endless/js/jquery.cookie.min.js"&gt;&lt;/script&gt;&lt;!-- Morris --&gt;<br/>
+  &lt;script src="/Templates/Endless/js/rapheal.min.js"&gt;&lt;/script&gt;<br/>
+  &lt;script src="/Templates/Endless/js/morris.min.js"&gt;&lt;/script&gt;&lt;!-- Gritter --&gt;<br/>
+  &lt;script src="/Templates/Endless/js/jquery.gritter.min.js"&gt;&lt;/script&gt;<br/>
+  &lt;script src="/Templates/js/plugin/summernote/summernote.min.js"&gt;&lt;/script&gt;<br/>
+  &lt;script src="/Templates/Endless/js/parsley.min.js"&gt;&lt;/script&gt;&lt;!-- Javascript application functions --&gt;<br/>
+  &lt;script src="/Templates/js/TweenMax.js"&gt;&lt;/script&gt;<br/>
+  &lt;script src="/Templates/js/TweenLite.js"&gt;&lt;/script&gt;<br/>
+  &lt;script src="/Templates/js/plugin/moment/moment.min.js"&gt;&lt;/script&gt;<br/>
+  &lt;script src="/Templates/js/jquery.twbsPagination.min.js"&gt;&lt;/script&gt;<br/>
+  &lt;script src="/Templates/js/plugin/dropzone/dropzone.min.js"&gt;&lt;/script&gt;<br/>
+  &lt;script src="/Templates/js/plugin/Dragula/dragula.min.js"&gt;&lt;/script&gt;&lt;!-- Javascript application functions --&gt;<br/>
+  &lt;script type="text/javascript"&gt;<br/>
+        $(document).ajaxError(function (evt, xhr) {<br/>
+            try {<br/>
+                var json = $.parseJSON(xhr.responseText);<br/>
+                $.bigBox({<br/>
+                    title: "Resultado",<br/>
+                    icon: "fa fa-warning shake animated",<br/>
+                    content: json.message,<br/>
+                    color: "#C46A69",<br/>
+                    timeout: 5000<br/>
+                });<br/>
+                //alert(json.errorMessage);<br/>
+            } catch (e) {<br/>
+                //alert('something bad happened');<br/>
+            }<br/>
+        });<br/>
+        //====================================================<br/>
+        // Seteamos el idioma según la selección que se hizo<br/>
+        // en el login.<br/>
+        //Cuando el param language tiene un valor, seteamos el idioma<br/>
+        //y refrescamos la página, el seteo del idioma se hace del lado del servidor.<br/>
+        //En caso contrario, solamente se selecciona el item del idioma en el dropdownlist<br/>
+        //para indicar el idioma usado.<br/>
+        //====================================================<br/>
+        function setLanguage(language) {<br/>
+            $.ajax({<br/>
+                type: "GET",<br/>
+                dataType: "json",<br/>
+                data: 'Language=' + language,<br/>
+                url: "Home/GetLanguage",<br/>
+                success: function (data) {<br/>
+                    if (data != null) {<br/>
+                        //removemos la clase active de los dos items que tenemos<br/>
+                        $("#countryItemUS").removeClass("active");<br/>
+                        $("#countryItemESP").removeClass("active");<br/>
+<br/>
+                        //obtenemos los elementos que necesitamos actualizar<br/>
+                        var countrySet = $("#countrySet");<br/>
+                        var countryText = countrySet.find("#Countrytext");<br/>
+                        var countryImg = countrySet.find("#imgCountry");<br/>
+<br/>
+<br/>
+<br/>
+                        if (data.indexOf("es-") &gt;= 0) {<br/>
+                            countryText.text("ESP");<br/>
+                            countryImg.removeClass('flag-us').addClass('flag-es');<br/>
+<br/>
+                            $("#countryItemUS").removeClass("active");<br/>
+                            $("#countryItemESP").addClass("active");<br/>
+<br/>
+                        } else if (data.indexOf("en-") &gt;= 0) {<br/>
+                            countryText.text("US");<br/>
+                            countryImg.removeClass('flag-es').addClass('flag-us');<br/>
+<br/>
+                            $("#countryItemESP").removeClass("active");<br/>
+                            $("#countryItemUS").addClass("active");<br/>
+                        }<br/>
+<br/>
+                        //=======================================================================<br/>
+                        //si language tiene valor, significa que estamos seteando el nuevo idioma<br/>
+                        //y refrescamos la página para que se refresquen los string localizados en<br/>
+                        //asp.net<br/>
+                        //=======================================================================<br/>
+                        if (language != '') {<br/>
+                            //refrescamos la página<br/>
+                            window.location.reload();<br/>
+                        }<br/>
+<br/>
+                    }<br/>
+                },<br/>
+                error: function (data) {<br/>
+<br/>
+                }<br/>
+            });<br/>
+        }<br/>
+<br/>
+        function LogOutUserInDevice() {<br/>
+            $.ajax({<br/>
+                cache: false,<br/>
+                type: 'GET',<br/>
+                url: 'Home/InsertUserLogoutInDevice',<br/>
+                contentType: "application/json; charset=utf-8",<br/>
+                dataType: "json",<br/>
+                success: function (obj) {<br/>
+                    if (obj.status == 'OK') {<br/>
+                        console.log("LogoutDevice OK");<br/>
+                    }<br/>
+                },<br/>
+                error: function (obj) { }<br/>
+            });<br/>
+        }<br/>
+<br/>
+        function LogOut() {<br/>
+            var Id = '10160';<br/>
+<br/>
+            var clientId = KinPOS.Global.readCookie("CheckValue");<br/>
+            if (clientId != null) {<br/>
+                $("#expirSesion").removeClass("hidden");<br/>
+                $("#modalfin").modal("show");<br/>
+                setTimeout(function () {<br/>
+                    $.ajax({<br/>
+                        cache: false,<br/>
+                        type: 'DELETE',<br/>
+                        async: false,<br/>
+                        url: 'api/reports/clients/' + clientId,<br/>
+                        success: function (obj) {<br/>
+                        }<br/>
+                    });<br/>
+                }, 2500);<br/>
+            }<br/>
+            $("#closeSesion").removeClass("hidden");<br/>
+            $("#modalfin").modal("show");<br/>
+            setTimeout(function () {<br/>
+            $.ajax({<br/>
+                cache: false,<br/>
+                type: 'GET',<br/>
+                url: 'Home/LogOut',<br/>
+                data: "Id=" + Id,<br/>
+                contentType: "application/json; charset=utf-8",<br/>
+                dataType: "json",<br/>
+                success: function (obj) {<br/>
+                    if (obj.status == 'OK') {<br/>
+                        console.log("Logout OK");<br/>
+                        window.location = '/Login';<br/>
+                    }<br/>
+                },<br/>
+                error: function (obj) {<br/>
+                    window.location = '/Login';<br/>
+                }<br/>
+            });<br/>
+            }, 2500);<br/>
+        };<br/>
+<br/>
+        function GetUserImage() {<br/>
+            var Id = '10160';<br/>
+<br/>
+            $.ajax({<br/>
+                type: 'GET',<br/>
+                url: 'Home/GetUserImage',<br/>
+                contentType: "application/json; charset=utf-8",<br/>
+                dataType: "json",<br/>
+                data: "Id=" + Id,<br/>
+                cache: false,<br/>
+                success: function (obj) {<br/>
+                    if (obj.Image.length &gt;= 1) {<br/>
+                        $("#imgUserAvatar").prop('src', 'data:image/jpg;base64,' + obj.Image);<br/>
+                    } else {<br/>
+                        $("#imgUserAvatar").prop('src', '/Templates/img/avatars/male.png');<br/>
+                    }<br/>
+                },<br/>
+                error: function (obj) {<br/>
+<br/>
+                }<br/>
+            });<br/>
+        }<br/>
+<br/>
+        function GetFlagCustomHelp() {<br/>
+            $.ajax({<br/>
+                cache: false,<br/>
+                type: 'GET',<br/>
+                url: 'Home/GetFlagCustomHelp',<br/>
+                dataType: "json",<br/>
+                success: function (obj) {<br/>
+                    if (obj) {<br/>
+                        $("#customhelp").removeClass("hidden")<br/>
+                    } else {<br/>
+                        $("#customhelp").addClass("hidden")<br/>
+                    }<br/>
+                },<br/>
+                error: function (obj) {}<br/>
+            });<br/>
+        }<br/>
+<br/>
+        //function disableBackButtonAllBrowsers() {<br/>
+        //    window.history.forward();<br/>
+        //};<br/>
+<br/>
+        //window.onload = disableBackButtonAllBrowsers();<br/>
+<br/>
+        //window.onpageshow = function (evts) {<br/>
+        //    if (evts.persisted) {<br/>
+        //        disableBackButtonAllBrowsers();<br/>
+        //    }<br/>
+        //};<br/>
+<br/>
+        //function preventBack() { window.history.forward(); }<br/>
+        //setTimeout("preventBack()", 0);<br/>
+        //window.onunload = function () { preventBack(); };<br/>
+<br/>
+        //theme setting<br/>
+        $("#theme-setting-icon").click(function () {<br/>
+            if ($('#theme-setting').hasClass('open')) {<br/>
+                $('#theme-setting').removeClass('open');<br/>
+                $('#theme-setting-icon').removeClass('open');<br/>
+            }<br/>
+            else {<br/>
+                $('#theme-setting').addClass('open');<br/>
+                $('#theme-setting-icon').addClass('open');<br/>
+            }<br/>
+<br/>
+            return false;<br/>
+        });<br/>
+<br/>
+        // Cookie validation<br/>
+        if (jQuery.type($.cookie('skin_color')) != 'undefined') {<br/>
+<br/>
+            $('aside').removeClass('skin-1');<br/>
+            $('aside').removeClass('skin-2');<br/>
+            $('aside').removeClass('skin-3');<br/>
+            $('aside').removeClass('skin-4');<br/>
+            $('aside').removeClass('skin-5');<br/>
+            $('aside').removeClass('skin-6');<br/>
+            $('aside').removeClass('skin-7');<br/>
+            $('aside').removeClass('skin-8');<br/>
+            $('#top-nav').removeClass('skin-1');<br/>
+            $('#top-nav').removeClass('skin-2');<br/>
+            $('#top-nav').removeClass('skin-3');<br/>
+            $('#top-nav').removeClass('skin-4');<br/>
+            $('#top-nav').removeClass('skin-5');<br/>
+            $('#top-nav').removeClass('skin-6');<br/>
+            $('#top-nav').removeClass('skin-7');<br/>
+            $('#top-nav').removeClass('skin-8');<br/>
+            $('#content').removeClass('skin-1');<br/>
+            $('#content').removeClass('skin-2');<br/>
+            $('#content').removeClass('skin-3');<br/>
+            $('#content').removeClass('skin-4');<br/>
+            $('#content').removeClass('skin-5');<br/>
+            $('#content').removeClass('skin-6');<br/>
+            $('#content').removeClass('skin-7');<br/>
+            $('#content').removeClass('skin-8');<br/>
+<br/>
+            $('aside').addClass($.cookie('skin_color'));<br/>
+            $('#top-nav').addClass($.cookie('skin_color'));<br/>
+            $('#content').addClass($.cookie('skin_color'));<br/>
+        }<br/>
+<br/>
+        //Skin color<br/>
+        $('.theme-color').click(function () {<br/>
+            //Cookies for storing theme color<br/>
+            $.cookie('skin_color', $(this).attr('id'));<br/>
+<br/>
+            $('aside').removeClass('skin-1');<br/>
+            $('aside').removeClass('skin-2');<br/>
+            $('aside').removeClass('skin-3');<br/>
+            $('aside').removeClass('skin-4');<br/>
+            $('aside').removeClass('skin-5');<br/>
+            $('aside').removeClass('skin-6');<br/>
+            $('aside').removeClass('skin-7');<br/>
+            $('aside').removeClass('skin-8');<br/>
+            $('#top-nav').removeClass('skin-1');<br/>
+            $('#top-nav').removeClass('skin-2');<br/>
+            $('#top-nav').removeClass('skin-3');<br/>
+            $('#top-nav').removeClass('skin-4');<br/>
+            $('#top-nav').removeClass('skin-5');<br/>
+            $('#top-nav').removeClass('skin-6');<br/>
+            $('#top-nav').removeClass('skin-7');<br/>
+            $('#top-nav').removeClass('skin-8');<br/>
+            $('#content').removeClass('skin-1');<br/>
+            $('#content').removeClass('skin-2');<br/>
+            $('#content').removeClass('skin-3');<br/>
+            $('#content').removeClass('skin-4');<br/>
+            $('#content').removeClass('skin-5');<br/>
+            $('#content').removeClass('skin-6');<br/>
+            $('#content').removeClass('skin-7');<br/>
+            $('#content').removeClass('skin-8');<br/>
+<br/>
+            $('aside').addClass($(this).attr('id'));<br/>
+            $('#top-nav').addClass($(this).attr('id'));<br/>
+            $('#content').addClass($(this).attr('id'));<br/>
+        });<br/>
+<br/>
+        // Delete values stored in cookies<br/>
+        // uncomment code to activate<br/>
+        //  $.removeCookie('skin_color');<br/>
+        //<br/>
+<br/>
+        //Preloading<br/>
+        paceOptions = {<br/>
+            startOnPageLoad: true,<br/>
+            ajax: false, // disabled<br/>
+            document: false, // disabled<br/>
+            eventLag: false, // disabled<br/>
+            elements: false<br/>
+        };<br/>
+<br/>
+        //<br/>
+        $('.login-link').click(function (e) {<br/>
+            e.preventDefault();<br/>
+            href = $(this).attr('href');<br/>
+<br/>
+            $('.login-wrapper').addClass('fadeOutUp');<br/>
+<br/>
+            setTimeout(function () {<br/>
+                window.location = href;<br/>
+            }, 900);<br/>
+<br/>
+            return false;<br/>
+        });<br/>
+<br/>
+        //Logout Confirmation<br/>
+        //$('#logoutConfirm').popup({<br/>
+        //    pagecontainer: '.container',<br/>
+        //    transition: 'all 0.3s'<br/>
+        //});<br/>
+<br/>
+        //scroll to top of the page<br/>
+        $("#scroll-to-top").click(function () {<br/>
+            $("html, body").animate({ scrollTop: 0 }, 600);<br/>
+            return false;<br/>
+        });<br/>
+<br/>
+        //scrollable sidebar<br/>
+        //$('.scrollable-sidebar').slimScroll({<br/>
+        //    height: '100%',<br/>
+        //    size: '0px'<br/>
+        //});<br/>
+<br/>
+        //Sidebar menu dropdown<br/>
+        $('aside li').hover(<br/>
+           function () { $(this).addClass('open') },<br/>
+           function () { $(this).removeClass('open') }<br/>
+        )<br/>
+<br/>
+        //Collapsible Sidebar Menu<br/>
+        $('.openable &gt; a').click(function () {<br/>
+            //if (!$('#wrapper').hasClass('sidebar-mini')) {<br/>
+            //    if ($(this).parent().children('.submenu').is(':hidden')) {<br/>
+            //        $(this).parent().siblings().removeClass('open').children('.submenu').slideUp();<br/>
+            //        $(this).parent().addClass('open').children('.submenu').slideDown();<br/>
+            //    }<br/>
+            //    else {<br/>
+            //        $(this).parent().removeClass('open').children('.submenu').slideUp();<br/>
+            //    }<br/>
+            //}<br/>
+<br/>
+            return false;<br/>
+        });<br/>
+        $('#smart-topmenu')<br/>
+           .on('change', function (e) {<br/>
+               if ($(this)<br/>
+           .prop('checked')) {<br/>
+                   //window.location.href = '?menu=top';<br/>
+                   localStorage.setItem('sm-setmenu', 'top');<br/>
+                   location.reload();<br/>
+               } else {<br/>
+                   //window.location.href = '?';<br/>
+                   localStorage.setItem('sm-setmenu', 'left');<br/>
+                   location.reload();<br/>
+               }<br/>
+           });<br/>
+<br/>
+        if (localStorage.getItem('sm-setmenu') == 'top') {<br/>
+            $('#smart-topmenu').prop('checked', true);<br/>
+            $('#menuToggle').css('visibility', 'hidden');<br/>
+        } else {<br/>
+            $('#smart-topmenu').prop('checked', false);<br/>
+        }<br/>
+        //Toggle Menu<br/>
+        $('#sidebarToggle').click(function () {<br/>
+            $('#wrapper').toggleClass('sidebar-display');<br/>
+            $('.main-menu').find('.openable').removeClass('open');<br/>
+            $('.main-menu').find('.submenu').removeAttr('style');<br/>
+        });<br/>
+<br/>
+        $('#sizeToggle').click(function () {<br/>
+<br/>
+            $('#wrapper').off("resize");<br/>
+<br/>
+            $('#wrapper').toggleClass('sidebar-mini');<br/>
+            $('.main-menu').find('.openable').removeClass('open');<br/>
+            $('.main-menu').find('.submenu').removeAttr('style');<br/>
+        });<br/>
+<br/>
+        if (!$('#wrapper').hasClass('sidebar-mini')) {<br/>
+            //if (Modernizr.mq('(min-width: 768px)') && Modernizr.mq('(max-width: 868px)')) {<br/>
+            //    $('#wrapper').addClass('sidebar-mini');<br/>
+            //}<br/>
+            //else if (Modernizr.mq('(min-width: 869px)')) {<br/>
+            //    if (!$('#wrapper').hasClass('sidebar-mini')) {<br/>
+            //    }<br/>
+            //}<br/>
+        }<br/>
+<br/>
+        //show/hide menu<br/>
+        $('#menuToggle').click(function () {<br/>
+            $('#wrapper').toggleClass('sidebar-hide');<br/>
+            $('.main-menu').find('.openable').removeClass('open');<br/>
+            $('.main-menu').find('.submenu').removeAttr('style');<br/>
+        });<br/>
+<br/>
+        //$(window).resize(function () {<br/>
+        //    if (Modernizr.mq('(min-width: 768px)') && Modernizr.mq('(max-width: 868px)')) {<br/>
+        //        $('#wrapper').addClass('sidebar-mini').addClass('window-resize');<br/>
+        //        $('.main-menu').find('.openable').removeClass('open');<br/>
+        //        $('.main-menu').find('.submenu').removeAttr('style');<br/>
+        //    }<br/>
+        //    else if (Modernizr.mq('(min-width: 869px)')) {<br/>
+        //        if ($('#wrapper').hasClass('window-resize')) {<br/>
+        //            $('#wrapper').removeClass('sidebar-mini window-resize');<br/>
+        //            $('.main-menu').find('.openable').removeClass('open');<br/>
+        //            $('.main-menu').find('.submenu').removeAttr('style');<br/>
+        //        }<br/>
+        //    }<br/>
+        //    else {<br/>
+        //        $('#wrapper').removeClass('sidebar-mini window-resize');<br/>
+        //        $('.main-menu').find('.openable').removeClass('open');<br/>
+        //        $('.main-menu').find('.submenu').removeAttr('style');<br/>
+        //    }<br/>
+        //});<br/>
+<br/>
+        //fixed Sidebar<br/>
+        $('#fixedSidebar').click(function () {<br/>
+            if ($(this).prop('checked')) {<br/>
+                $('aside').addClass('fixed');<br/>
+            }<br/>
+            else {<br/>
+                $('aside').removeClass('fixed');<br/>
+            }<br/>
+        });<br/>
+<br/>
+        //Inbox sidebar (inbox.html)<br/>
+        $('#inboxMenuToggle').click(function () {<br/>
+            $('#inboxMenu').toggleClass('menu-display');<br/>
+        });<br/>
+<br/>
+        //Collapse panel<br/>
+        $('.collapse-toggle').click(function () {<br/>
+<br/>
+            $(this).parent().toggleClass('active');<br/>
+<br/>
+            var parentElm = $(this).parent().parent().parent().parent();<br/>
+<br/>
+            var targetElm = parentElm.find('.panel-body');<br/>
+<br/>
+            targetElm.toggleClass('collapse');<br/>
+        });<br/>
+<br/>
+<br/>
+<br/>
+        //Number Animation<br/>
+        var currentVisitor = $('#currentVisitor').text();<br/>
+<br/>
+        $({ numberValue: 0 }).animate({ numberValue: currentVisitor }, {<br/>
+            duration: 2500,<br/>
+            easing: 'linear',<br/>
+            step: function () {<br/>
+                $('#currentVisitor').text(Math.ceil(this.numberValue));<br/>
+            }<br/>
+        });<br/>
+<br/>
+        var currentBalance = $('#currentBalance').text();<br/>
+<br/>
+        $({ numberValue: 0 }).animate({ numberValue: currentBalance }, {<br/>
+            duration: 2500,<br/>
+            easing: 'linear',<br/>
+            step: function () {<br/>
+                $('#currentBalance').text(Math.ceil(this.numberValue));<br/>
+            }<br/>
+        });<br/>
+<br/>
+        //Refresh Widget<br/>
+        $('.refresh-widget').click(function () {<br/>
+            var _overlayDiv = $(this).parent().parent().parent().parent().find('.loading-overlay');<br/>
+            _overlayDiv.addClass('active');<br/>
+<br/>
+            setTimeout(function () {<br/>
+                _overlayDiv.removeClass('active');<br/>
+            }, 2000);<br/>
+<br/>
+            return false;<br/>
+        });<br/>
+<br/>
+        //Check all checkboxes<br/>
+        $('#chk-all').click(function () {<br/>
+            if ($(this).is(':checked')) {<br/>
+                $('.inbox-panel').find('.chk-item').each(function () {<br/>
+                    $(this).prop('checked', true);<br/>
+                    $(this).parent().parent().addClass('selected');<br/>
+                });<br/>
+            }<br/>
+            else {<br/>
+                $('.inbox-panel').find('.chk-item').each(function () {<br/>
+                    $(this).prop('checked', false);<br/>
+                    $(this).parent().parent().removeClass('selected');<br/>
+                });<br/>
+            }<br/>
+        });<br/>
+<br/>
+        $('.chk-item').click(function () {<br/>
+            if ($(this).is(':checked')) {<br/>
+                $(this).parent().parent().addClass('selected');<br/>
+            }<br/>
+            else {<br/>
+                $(this).parent().parent().removeClass('selected');<br/>
+            }<br/>
+        });<br/>
+<br/>
+        $('.chk-row').click(function () {<br/>
+            if ($(this).is(':checked')) {<br/>
+                $(this).parent().parent().parent().addClass('selected');<br/>
+            }<br/>
+            else {<br/>
+                $(this).parent().parent().parent().removeClass('selected');<br/>
+            }<br/>
+        });<br/>
+<br/>
+        //Hover effect on touch device<br/>
+        $('.image-wrapper').bind('touchstart', function (e) {<br/>
+            $('.image-wrapper').removeClass('active');<br/>
+            $(this).addClass('active');<br/>
+        });<br/>
+<br/>
+        //Dropdown menu with hover<br/>
+        $('.hover-dropdown').hover(<br/>
+           function () { $(this).addClass('open') },<br/>
+           function () { $(this).removeClass('open') }<br/>
+        )<br/>
+<br/>
+        //upload file<br/>
+        $('.upload-demo').change(function () {<br/>
+            var filename = $(this).val().split('\\').pop();<br/>
+            $(this).parent().find('span').attr('data-title', filename);<br/>
+            $(this).parent().find('label').attr('data-title', 'Change file');<br/>
+            $(this).parent().find('label').addClass('selected');<br/>
+        });<br/>
+<br/>
+        $('.remove-file').click(function () {<br/>
+            $(this).parent().find('span').attr('data-title', 'No file...');<br/>
+            $(this).parent().find('label').attr('data-title', 'Select file');<br/>
+            $(this).parent().find('label').removeClass('selected');<br/>
+<br/>
+            return false;<br/>
+        });<br/>
+<br/>
+        //theme setting<br/>
+        $("#theme-setting-icon").click(function () {<br/>
+            if ($('#theme-setting').hasClass('open')) {<br/>
+                $('#theme-setting').removeClass('open');<br/>
+                $('#theme-setting-icon').removeClass('open');<br/>
+            }<br/>
+            else {<br/>
+                $('#theme-setting').addClass('open');<br/>
+                $('#theme-setting-icon').addClass('open');<br/>
+            }<br/>
+<br/>
+            return false;<br/>
+        });<br/>
+<br/>
+        //to do list<br/>
+        $('.task-finish').click(function () {<br/>
+            if ($(this).is(':checked')) {<br/>
+                $(this).parent().parent().addClass('selected');<br/>
+            }<br/>
+            else {<br/>
+                $(this).parent().parent().removeClass('selected');<br/>
+            }<br/>
+        });<br/>
+<br/>
+        //Delete to do list<br/>
+        $('.task-del').click(function () {<br/>
+            var activeList = $(this).parent().parent();<br/>
+<br/>
+            activeList.addClass('removed');<br/>
+<br/>
+            setTimeout(function () {<br/>
+                activeList.remove();<br/>
+            }, 1000);<br/>
+<br/>
+            return false;<br/>
+        });<br/>
+<br/>
+        function loadJSRsx() {<br/>
+            KinPOS.Resources.txtTerminal = 'Terminal';<br/>
+            KinPOS.Resources.txtIdentification = 'Identificaci&#243;n';<br/>
+            KinPOS.Resources.txtPort = 'Puerto';<br/>
+            KinPOS.Resources.txtAccountEmail = 'Correo electr&#243;nico del comercio';<br/>
+            KinPOS.Resources.TxtProccess = 'Procesar';<br/>
+<br/>
+            //AFS<br/>
+            KinPOS.Resources.txtDevice = 'Dispositivo';<br/>
+            KinPOS.Resources.txtDescription = 'Descripci&#243;n';<br/>
+            KinPOS.Resources.TxtScoreRanges = 'Rangos de puntuaci&#243;n';<br/>
+            KinPOS.Resources.TxtRange = 'Rango';<br/>
+            KinPOS.Resources.TxtMinimum = 'M&#237;nimo';<br/>
+            KinPOS.Resources.TxtMaximum = 'M&#225;ximo';<br/>
+            KinPOS.Resources.TxtCreatedDate = 'Fecha de creaci&#243;n';<br/>
+            KinPOS.Resources.txtEdit = 'Editar';<br/>
+            KinPOS.Resources.txtDelete = 'Eliminar';<br/>
+            KinPOS.Resources.txtFieldNumeric = 'Este campo solamente acepta n&#250;meros';<br/>
+            KinPOS.Resources.txtValidatorScore = 'La calificaci&#243;n solo puede ser entre 0 y 100';<br/>
+            KinPOS.Resources.txtRequiredField = 'Este campo es requerido';<br/>
+            KinPOS.Resources.txtScoreMin = 'Calificaci&#243;n m&#237;nima';<br/>
+            KinPOS.Resources.txtScoreMax = 'Calificaci&#243;n m&#225;xima';<br/>
+            KinPOS.Resources.TxtMustBeGreater = 'El valor debe ser mayor que el campo &quot;{1}&quot;';<br/>
+            KinPOS.Resources.txtGridError = '';<br/>
+            KinPOS.Resources.txtTypeRule = 'Tipo de regla';<br/>
+            KinPOS.Resources.txtScore = 'Puntaje';<br/>
+            KinPOS.Resources.txtValue = 'Valor';<br/>
+            KinPOS.Resources.txtCoincidence = 'Coincidencias';<br/>
+            KinPOS.Resources.txtRuleActive = 'Regla activa';<br/>
+<br/>
+            KinPOS.Resources.txtPhone = 'Tel&#233;fono';<br/>
+            KinPOS.Resources.txtAddress = 'Direcci&#243;n';<br/>
+            KinPOS.Resources.txtCommerce = 'Comercio';<br/>
+<br/>
+            KinPOS.Resources.txtCountry = 'Pa&#237;s';<br/>
+<br/>
+            KinPOS.Resources.txtProduct = 'Producto';<br/>
+            KinPOS.Resources.txtLoading = 'Cargando...';<br/>
+            KinPOS.Resources.txtDistrict = 'Distrito';<br/>
+<br/>
+            KinPOS.Resources.txtExportToExcel = 'Exportar a excel';<br/>
+<br/>
+            //General<br/>
+            KinPOS.Resources.txtNew = 'Nuevo';<br/>
+            KinPOS.Resources.txtCity = 'Ciudad';<br/>
+            KinPOS.Resources.BtnSave = 'Guardar';<br/>
+            KinPOS.Resources.BtnDelete = 'Eliminar';<br/>
+            KinPOS.Resources.txtDeviceType = 'Tipo de dispositivo';<br/>
+            KinPOS.Resources.txtDeptoRegion = 'Depto-Regi&#243;n-Estado-Provincia';<br/>
+            KinPOS.Resources.txtNSRChangesTheDBSelect = 'No se registran cambios para la base de datos seleccionada';<br/>
+            KinPOS.Resources.txtAddRecord = 'Agregar registro';<br/>
+            KinPOS.Resources.txtProcessingCode = 'C&#243;digo de proceso';<br/>
+            KinPOS.Resources.TxtItemsPerPage = 'C&#243;digo de proceso';<br/>
+            KinPOS.Resources.TxtDisplay = 'Mostrando registros del {0} al {1}. Total: {2}';<br/>
+            KinPOS.Resources.TxtEmptyGrid = 'No hay registros para mostrar';<br/>
+            KinPOS.Resources.TxtJanuary = 'Enero';<br/>
+            KinPOS.Resources.TxtFebruary = 'Febrero';<br/>
+            KinPOS.Resources.TxtMarch = 'Marzo';<br/>
+            KinPOS.Resources.TxtApril = 'Abril';<br/>
+            KinPOS.Resources.TxtMay = 'Mayo';<br/>
+            KinPOS.Resources.TxtJune = 'Junio';<br/>
+            KinPOS.Resources.TxtJuly = 'Julio';<br/>
+            KinPOS.Resources.TxtAugust = 'Agosto';<br/>
+            KinPOS.Resources.TxtSeptember = 'Septiembre';<br/>
+            KinPOS.Resources.TxtOctober = 'Octubre';<br/>
+            KinPOS.Resources.TxtNovember = 'Noviembre';<br/>
+            KinPOS.Resources.TxtDecember = 'Diciembre';<br/>
+            KinPOS.Resources.TxtProcessing = 'Procesando';<br/>
+            KinPOS.Resources.TxtDetails = 'Detalles';<br/>
+            KinPOS.Resources.Audit = 'Audit';<br/>
+<br/>
+            //HDK<br/>
+            KinPOS.Resources.txtErrSLA = 'Por favor, seleccione un valor para el campo &quot;SLA&quot;';<br/>
+            KinPOS.Resources.txtErrRoute = 'Por favor, seleccione un valor para el campo &quot;Ruta&quot;';<br/>
+            KinPOS.Resources.txtAutomatic = 'Autom&#225;tico';<br/>
+            KinPOS.Resources.txtErrOfficial = 'Por favor, seleccione un valor para el campo &quot;Ejecutivo&quot;';<br/>
+<br/>
+            //Alertas<br/>
+            KinPOS.Resources.TxtInsertError = 'Ocurri&#243; un error al agregar el registro';<br/>
+            KinPOS.Resources.TxtDeleteError = 'ha ocurrido un error al eliminar el registro';<br/>
+            KinPOS.Resources.TxtGeneralError = 'Ocurri&#243;n un error al procesar su petici&#243;n.';<br/>
+            KinPOS.Resources.TxtCorrectDelete = 'Se elimin&#243; correctamente el registro';<br/>
+            KinPOS.Resources.TxtNotUpdatePermission = 'Su usuario no tiene permisos de actualizaci&#243;n';<br/>
+<br/>
+            //RPS<br/>
+            KinPOS.Resources.ProcessingStateCode = '2';<br/>
+            KinPOS.Resources.messageCharNotAllowed = 'Caracter No Permitido.';<br/>
+            KinPOS.Resources.messagePassw1NotAllowed = 'Clave 1 NO Valida!!!';<br/>
+            KinPOS.Resources.messagePassw2NotAllowed = 'Clave 2 NO Valida!!!';<br/>
+            KinPOS.Resources.messagePasswNotMatch = 'Clave NO Coincide!!!';<br/>
+            KinPOS.Resources.messageFileUploaded = 'El Archivo se ha subido con &#233;xito';<br/>
+            KinPOS.Resources.messageFileProcessing = 'El Archivo se ha programado para ser procesado';<br/>
+            KinPOS.Resources.titleOk = 'OK';<br/>
+            KinPOS.Resources.titleError = 'ERROR';<br/>
+            KinPOS.Resources.messageFileUploadExtensionFailed = 'Extension del Archivo no Soportada';<br/>
+            KinPOS.Resources.messageFileUploadLengthFailed = 'Peso del Archivo no Soportado.';<br/>
+            KinPOS.Resources.btnSelectFile = ' Archivo...';<br/>
+            KinPOS.Resources.txtHashReg = 'Este Archivo ya ha sido cargado';<br/>
+            KinPOS.Resources.txtAgreeQuestion = '&#191;Realmente desea continuar ?';<br/>
+            KinPOS.Resources.txtDeleteReg = 'Eliminar Archivo';<br/>
+            KinPOS.Resources.txtAgreeQuestion = '&#191;Realmente desea continuar ?';<br/>
+<br/>
+            //DMS<br/>
+            KinPOS.Resources.txtNo = 'NO';<br/>
+            KinPOS.Resources.txtOr = 'O';<br/>
+            KinPOS.Resources.txtYes = 'SI';<br/>
+            KinPOS.Resources.txtAnd = 'Y';<br/>
+            KinPOS.Resources.txtNone = 'Ninguna';<br/>
+            KinPOS.Resources.txtName = 'Nombre';<br/>
+            KinPOS.Resources.txtData = 'Datos';<br/>
+            KinPOS.Resources.txtUndo = '';<br/>
+            KinPOS.Resources.txtSecQ = 'PREGUNTA DE SEGURIDAD';<br/>
+            KinPOS.Resources.txtLabel = 'Etiqueta';<br/>
+            KinPOS.Resources.txtLabel = 'Etiqueta';<br/>
+            KinPOS.Resources.txtYesNo = '[No][Si]';<br/>
+            KinPOS.Resources.txtAlias = 'Alias';<br/>
+            KinPOS.Resources.txtPrint = 'Imprimir';<br/>
+            KinPOS.Resources.txtField = 'Campo';<br/>
+            KinPOS.Resources.txtClear = 'Limpiar';<br/>
+            KinPOS.Resources.txtResult = 'RESULTADO';<br/>
+            KinPOS.Resources.txtSelect = 'Seleccione...';<br/>
+            KinPOS.Resources.txtSerial = 'Serial';<br/>
+            KinPOS.Resources.txtFilter = 'Filtrar';<br/>
+            KinPOS.Resources.titleStep = 'Paso';<br/>
+            KinPOS.Resources.btnCancel = 'Cancelar';<br/>
+            KinPOS.Resources.txtSelectA = 'Seleccione un';<br/>
+            KinPOS.Resources.txtNumeric = 'Num&#233;rico';<br/>
+            KinPOS.Resources.txtLogical = 'L&#243;gico';<br/>
+            KinPOS.Resources.txtPointer = 'Puntero';<br/>
+            KinPOS.Resources.txtNActive = 'No. de Activo';<br/>
+            KinPOS.Resources.txtDisplay = 'Mostrando registros del {0} al {1}. Total: {2}';<br/>
+            KinPOS.Resources.txtDevices = 'Dispositivos';<br/>
+            KinPOS.Resources.txtRegDelQ = '&#191;Realmente desea eliminar este registro?';<br/>
+            KinPOS.Resources.txtInternal = 'Interno';<br/>
+            KinPOS.Resources.txtPosition = 'Posici&#243;n';<br/>
+            KinPOS.Resources.txtReadOnly = 'Solo lectura';<br/>
+            KinPOS.Resources.txtSelectDB = 'Seleccione una base de datos';<br/>
+            KinPOS.Resources.txtOperator = 'Operador';<br/>
+            KinPOS.Resources.txtTheField = 'El campo';<br/>
+            KinPOS.Resources.txtNotFound = 'no encontradas';<br/>
+            KinPOS.Resources.txtGridInfo = 'Mostrar registros con valor que:';<br/>
+            KinPOS.Resources.txtDatabase = 'Base de datos';<br/>
+            KinPOS.Resources.txtTemplate = 'Plantilla';<br/>
+            KinPOS.Resources.txtContains = 'Contiene';<br/>
+            KinPOS.Resources.txtNocopyre = 'No puede copiar un registro que no pertenece a la misma tabla.';<br/>
+            KinPOS.Resources.txtNameTrade = 'Nombre Comercio';<br/>
+            KinPOS.Resources.txtMssError1 = 'No se puede guardar, uno de los siguientes campos se encuentra vac&#237;o: ';<br/>
+            KinPOS.Resources.txtImportKey = 'Llave para importar';<br/>
+            KinPOS.Resources.txtDeveloper = 'Desarrollador';<br/>
+            KinPOS.Resources.txtEmptyGrid = 'No hay registros para mostrar';<br/>
+            KinPOS.Resources.txtWOMessage = 'Sin mensaje';<br/>
+            KinPOS.Resources.txtIsEqualTo = 'Es igual a';<br/>
+            KinPOS.Resources.txtUploadFile = 'Subir archivo';<br/>
+            KinPOS.Resources.txtSupervisor = 'Supervisor';<br/>
+            KinPOS.Resources.txtIsLessThan = 'Es menor que';<br/>
+            KinPOS.Resources.txtWizRptTitle = 'REPORTE DE CONFIGURACION DEL ASISTENTE';<br/>
+            KinPOS.Resources.txtTypeMerchant = 'Tipo Comercio';<br/>
+            KinPOS.Resources.txtDatabaseName = 'Nombre de la base de datos';<br/>
+            KinPOS.Resources.txtDeleteTableQ = '&#191;Realmente desea eliminar la tabla? El proceso eliminar&#225; su estructura y datos, es posible que se afecte la integridad de la base de datos con este cambio.';<br/>
+            KinPOS.Resources.txtRecordCopied = 'Registro copiado';<br/>
+            KinPOS.Resources.txtItemsPerPage = 'Registros por p&#225;gina';<br/>
+            KinPOS.Resources.txtPKeyRepeated = 'La combinaci&#243;n de los campos: PROGRAMA (PROTOCOLO), ID TERMINAL, ID COMERCIO; est&#225; duplicada';<br/>
+            KinPOS.Resources.txtRecordExists = 'El registro {0} ya existe';<br/>
+            KinPOS.Resources.txtIsNotEqualTo = 'No es igual a';<br/>
+            KinPOS.Resources.txtUpperProperty = 'PROPIEDAD';<br/>
+            KinPOS.Resources.txtAdministrator = 'Administrador';<br/>
+            KinPOS.Resources.txtUpperNewValue = 'NUEVO VALOR';<br/>
+            KinPOS.Resources.txtCanNotBeEmpty = 'no puede estar vacio.';<br/>
+            KinPOS.Resources.txtTerminalModel = 'Modelo de terminal';<br/>
+            KinPOS.Resources.txtUndoingChange = '';<br/>
+            KinPOS.Resources.txtIsGreaterThan = 'Es mayor que';<br/>
+            KinPOS.Resources.txtMerchantFather = 'Comercio padre';<br/>
+            KinPOS.Resources.txtSelRecToDelete = 'No se puede eliminar, por favor, seleccione un registro';<br/>
+            KinPOS.Resources.txtCharacteristics = 'Caracter&#237;sticas';<br/>
+            KinPOS.Resources.txtItCanNotBeEmpty = 'no puede estar vacio. Si no tiene';<br/>
+            KinPOS.Resources.txtDeleteDatabaseQ = '&#191;Est&#225; seguro que desea eliminar la base de datos seleccionada?';<br/>
+            KinPOS.Resources.txtToBeAssociatedW = 'para ser asociado al';<br/>
+            KinPOS.Resources.txtDbTransferError = 'Por favor, seleccione una base de datos a la que desea tranferir la terminal seleccionada';<br/>
+            KinPOS.Resources.txtEmptyRecordsToAdd = 'No hay m&#225;s registros para agregar';<br/>
+            KinPOS.Resources.txtToBeAbleToMigrate = 'para poder migrar.';<br/>
+            KinPOS.Resources.txtLBBDialogNoCopyRe = 'No puede copiar un registro que no pertenece a la misma tabla.';<br/>
+            KinPOS.Resources.txtUpperDeletedTables = 'TABLAS ELIMINADAS';<br/>
+            KinPOS.Resources.txtUpperCreatedTables = 'TABLAS CREADAS';<br/>
+            KinPOS.Resources.txtUpperUpdatedTables = 'TABLAS ACTUALIZADAS';<br/>
+            KinPOS.Resources.txtUpperDeletedFields = 'CAMPOS ELIMINADOS';<br/>
+            KinPOS.Resources.txtUpperCreatedFields = 'CAMPOS CREADOS';<br/>
+            KinPOS.Resources.txtUpperUpdatedFields = 'CAMPOS ACTUALIZADOS';<br/>
+            KinPOS.Resources.txtHigherMaxlengthMsg = 'El tama&#241;o del archivo a subir no puede superar los';<br/>
+            KinPOS.Resources.txtPleaseFillTheField = 'Por favor, llene el campo';<br/>
+            KinPOS.Resources.txtToBeAssociatedWith = 'para ser asociado al';<br/>
+            KinPOS.Resources.txtSelectExtensionFile = 'Por favor, elija un archivo v&#225;lido con extensi&#243;n';<br/>
+            KinPOS.Resources.txtIsLessThanOrEqualTo = 'Es menor que o igual a';<br/>
+            KinPOS.Resources.txtNoDeviceAssociation = 'La terminal debe estar asociada a un dispositivo';<br/>
+            KinPOS.Resources.txtSelectDatabaseError = 'Por favor, seleccione una base de datos para continuar';<br/>
+            KinPOS.Resources.txtRecordTerminalError = 'El registro seleccionado no corresponde a una terminal v&#225;lida';<br/>
+            KinPOS.Resources.txtDestinationWarehouse = 'Bodega destino';<br/>
+            KinPOS.Resources.txtImportKeyStructError = '';<br/>
+            KinPOS.Resources.txtUseTheSameFieldValue = 'por favor, use el mismo valor del campo';<br/>
+            KinPOS.Resources.txtNoFindFieldPersonalK = 'No se encontraron los campos para guardar, por favor contacte al personal de KinPOS';<br/>
+            KinPOS.Resources.txtTerminalMigratednoAso = 'La terminal no puede ser migrada, no esta asociada a un comercio o a un dispositivo.';<br/>
+            KinPOS.Resources.txtTableContinueWProcess = 'Hay cambios pendientes en la tabla actual. &#191;Desea continuar con el proceso solicitado?';<br/>
+            KinPOS.Resources.txtToBeAssociatedWithThis = 'para ser asociado a este';<br/>
+            KinPOS.Resources.txtIsGreaterThanOrEqualTo = 'Es mayor que o igual a';<br/>
+            KinPOS.Resources.txtLBBDialogTMigratedNoAso = 'La terminal no puede ser migrada, no esta asociada a un comercio o a un dispositivo.';<br/>
+            KinPOS.Resources.txtLBBDialogNoFindFieldPersK = 'No se encontraron los campos para guardar, por favor contacte al personal de KinPOS';<br/>
+            KinPOS.Resources.txtView = 'Ver';<br/>
+            KinPOS.Resources.txtStatus = 'Estado';<br/>
+            KinPOS.Resources.txtActive = 'Activa';<br/>
+            KinPOS.Resources.txtMssError3 = 'No se puede guardar, uno de los siguientes campos se encuentra con un valor identificado como nulo: ';<br/>
+            KinPOS.Resources.txtImport = 'Importar';<br/>
+            KinPOS.Resources.txtBackup = 'Respaldar';<br/>
+            KinPOS.Resources.txtRestore = 'Restaurar';<br/>
+            KinPOS.Resources.txtBackupToRestore = 'Respaldo a restaurar';<br/>
+            KinPOS.Resources.TxtUpperDatabaseChanges = 'CAMBIOS PARA LA BASE DE DATOS';<br/>
+            KinPOS.Resources.TxtUpperTableChanges = 'CAMBIOS PARA LAS TABLAS';<br/>
+            KinPOS.Resources.TxtUpdateStruct = 'Actualizar estructura BD';<br/>
+            KinPOS.Resources.TxtDeleteBackup = 'Eliminar respaldo';<br/>
+            KinPOS.Resources.txtBackupObj = 'Respaldo';<br/>
+            KinPOS.Resources.txtNotificationMail = 'Correo electr&#243;nico de notificaci&#243;n';<br/>
+            KinPOS.Resources.txtTableName = 'Nombre de la tabla';<br/>
+            KinPOS.Resources.txtBaseFilterDelete = 'Filtro base, solo se puede eliminar cuando no hay otros filtros';<br/>
+            KinPOS.Resources.txtTypeFilter = 'Tipo de filtro';<br/>
+            KinPOS.Resources.txtFilterUnion = 'Uni&#243;n del filtro';<br/>
+            KinPOS.Resources.txtFieldDescription = 'Descripci&#243;n del campo';<br/>
+            KinPOS.Resources.txtFieldsNotConfigured = 'No hay campos configurados para actualizar';<br/>
+            KinPOS.Resources.txtSelectTableError = 'Por favor, seleccione una tabla para continuar';<br/>
+            KinPOS.Resources.txtSelectDatabaseError = 'Por favor, seleccione una base de datos para continuar';<br/>
+            KinPOS.Resources.txtMssError4 = 'La validaci&#243;n del hash no coincide con el campo: ';<br/>
+<br/>
+            //PAY<br/>
+            KinPOS.Resources.TxtMustBeLeesthan='Debe de ser menor que Monto';<br/>
+        }<br/>
+<br/>
+        $(document).ready(function () {<br/>
+            loadJSRsx();<br/>
+            GetUserImage();<br/>
+            setLanguage('');<br/>
+            GetFlagCustomHelp();<br/>
+<br/>
+            $("#hrefMyAccount").attr("href", "#/Administration/MyAccount");<br/>
+<br/>
+            $("#countryItemUS").click(function () {<br/>
+<br/>
+                var lang = $(this).find("#CountryTextUS").text();<br/>
+<br/>
+                $("#countryItemUS").addClass("active");<br/>
+                $("#countryItemESP").removeClass("active");<br/>
+                setLanguage("en-us");<br/>
+            });<br/>
+<br/>
+            $("#countryItemESP").click(function () {<br/>
+<br/>
+                var lang = $(this).find("#CountryTextESP").text();<br/>
+<br/>
+                $("#countryItemUS").removeClass("active");<br/>
+                $("#countryItemESP").addClass("active");<br/>
+                setLanguage("es-es");<br/>
+<br/>
+            });<br/>
+        });<br/>
+    &lt;/script&gt;<br/>
+  &lt;div id="divSmallBoxes"&gt;&lt;/div&gt;<br/>
+  &lt;div id="divMiniIcons"&gt;&lt;/div&gt;<br/>
+  &lt;div id="divbigBoxes"&gt;&lt;/div&gt;<br/>
+ &lt;/body&gt;<br/>
+&lt;/html&gt;</code></pre></div></body></html>

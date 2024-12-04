@@ -2,6 +2,7 @@ package prueba.banistmo.LoginCSI.tasks.Login;
 
 import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.Task;
+import net.serenitybdd.screenplay.actions.Click;
 import net.serenitybdd.screenplay.actions.Enter;
 
 import javax.swing.*;
@@ -40,6 +41,7 @@ public class Login implements Task {
                     Enter.theValue(usuario).into(USUARIO));
             actor.attemptsTo(
                     Enter.theValue(contrasena).into(CONTRASENA));
+
 
 
         }

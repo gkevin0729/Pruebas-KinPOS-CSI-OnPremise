@@ -4,17 +4,15 @@ import io.cucumber.java.Before;
 import io.cucumber.java.es.Cuando;
 import io.cucumber.java.es.Dado;
 import io.cucumber.java.es.Entonces;
-import net.serenitybdd.screenplay.Actor;
 import net.serenitybdd.screenplay.GivenWhenThen;
-import net.serenitybdd.screenplay.Question;
 import net.serenitybdd.screenplay.actions.Click;
 import net.serenitybdd.screenplay.actors.OnStage;
 import net.serenitybdd.screenplay.actors.OnlineCast;
 import net.serenitybdd.screenplay.waits.WaitUntil;
-import prueba.banistmo.LoginCSI.questions.VerificarPaginaHome;
+import prueba.banistmo.LoginCSI.questions.Login.VerificarPaginaHome;
 import prueba.banistmo.LoginCSI.tasks.IngresarPagina;
 import prueba.banistmo.LoginCSI.tasks.Login.Login;
-import prueba.banistmo.LoginCSI.userinterface.LinkCsiOnPremise;
+import prueba.banistmo.LoginCSI.tasks.Login.PaginaOlvidoCredenciales;
 
 
 import static net.bytebuddy.matcher.ElementMatchers.is;
@@ -23,8 +21,8 @@ import static net.serenitybdd.screenplay.actors.OnStage.*;
 import static net.serenitybdd.screenplay.matchers.WebElementStateMatchers.isVisible;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
-import static prueba.banistmo.LoginCSI.userinterface.PaginaCSIObje.BTN_ENTRAR;
-import static prueba.banistmo.LoginCSI.userinterface.PaginaCSIObje.TEXTO_PAGINA_INICIO;
+import static prueba.banistmo.LoginCSI.userinterface.PaginaCSIObje.*;
+import static prueba.banistmo.LoginCSI.userinterface.PaginaCSIObje.LINK_PERFIL;
 
 public class CSIOnPremiseStepDefinitions {
 
@@ -49,13 +47,12 @@ public class CSIOnPremiseStepDefinitions {
 
 
     }
+
     @Entonces("valido que aparezca la pantalla del home de CSI")
     public void ValidoQueAparezcaLaPantallaDelHomeDeCSI() {
         theActorCalled("Kevin").attemptsTo(
-                WaitUntil.the(TEXTO_PAGINA_INICIO, isVisible()).forNoMoreThan(10).seconds()  // Aquí puedes usar cualquier elemento o dejarlo vacío
-        );
+                WaitUntil.the(TEXTO_PAGINA_INICIO, isVisible()).forNoMoreThan(10).seconds());
 
-        // Ahora se realiza la validación de la URL
         OnStage.theActorInTheSpotlight().should(
                 GivenWhenThen.seeThat(
                         "La URL contiene la palabra 'Home'",
@@ -63,10 +60,31 @@ public class CSIOnPremiseStepDefinitions {
                         equalTo(true)
                 )
         );
+        theActorCalled("Kevin").attemptsTo(Click.on(LINK_PERFIL));
+        theActorCalled("Kevin").attemptsTo(Click.on(BTN_SALIR));
 
     }
 
 
+    @Dado("que este en la pagina de ayuda")
+    public void queEsteEnLaPaginaDeAyuda() {
+        theActorCalled("Kevin").wasAbleTo(IngresarPagina.paginaMaxTime());
+        theActorCalled("Kevin").attemptsTo(Click.on(BTN_OLVIDO));
+        theActorCalled("Kevin").attemptsTo(Click.on(BTN_OLVIDO2));
+    }
+    @Cuando("ingrese user y email")
+    public void ingreseUserYEmail() {
+        OnStage.theActorInTheSpotlight().attemptsTo(PaginaOlvidoCredenciales.conDatos());
+
+    }
+    @Cuando("haga click en el boton de enviar")
+    public void hagaClickEnElBotonDeEnviar() {
+
+    }
+    @Entonces("se debe mostrar una alerta que se envio el correo de restablecimiento")
+    public void seDebeMostrarUnaAlertaQueSeEnvioElCorreoDeRestablecimiento() {
+
+    }
 }
 
 
